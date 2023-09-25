@@ -20,7 +20,7 @@ const app = express();
 app.use(express.json())
 app.use(morgan('dev'))
 
-app.use(cors()); // Add this line to enable CORS
+app.use(cors()); // Add this line to enable CORS --gpt
 
 //routes
 app.use("/api/v1/auth",authRoutes)
