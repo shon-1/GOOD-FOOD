@@ -91,3 +91,59 @@ font-family: 'Poppins', sans-serif;
     background-color: black;
     color: white;
   }
+
+
+  /* =================================
+======== rEGISTER ======= */
+
+/* Container */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Form Styles */
+.form-control {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Button Styles */
+.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive Styles (adjust as needed) */
+@media (max-width: 768px) {
+  .form-control {
+    width: 80%;
+  }
+}
+
+/* Additional Styles (customize as needed) */
+/* Add your custom styles here */
+
+
+/* Add more styles as needed */

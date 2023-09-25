@@ -5,6 +5,10 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import PageNotFound from "./pages/PageNotFound";
 import Policy from "./pages/Policy";
+import Register from "./pages/Auth/register";
+import Login from "./pages/Auth/Login";
+import RegLog from "./pages/RegLog";
+
 // Routes like container
 function App() {
   return (
@@ -14,7 +18,11 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/Contact" element={<Contact />} />
         <Route path="/Policy" element={<Policy />} />
+        <Route path="/register" element={<Register/>} />
+        
+        <Route path="/Login" element={<Login/>} />
         <Route path="/*" element={<PageNotFound />} />
+        <Route path="/RegLog" element={<RegLog />} />
       </Routes>
     </>
   );

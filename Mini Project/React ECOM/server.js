@@ -5,7 +5,7 @@ import morgan from 'morgan'
 import connectDB from './config/db.js';
 
 import authRoutes from './routes/authRoute.js';
-
+import cors from 'cors';
 
 //config env
 dotenv.config();
@@ -19,6 +19,8 @@ const app = express();
 //config morgan (middile ware)
 app.use(express.json())
 app.use(morgan('dev'))
+
+app.use(cors()); // Add this line to enable CORS
 
 //routes
 app.use("/api/v1/auth",authRoutes)

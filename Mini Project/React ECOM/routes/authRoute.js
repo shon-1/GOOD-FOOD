@@ -8,7 +8,9 @@ const router = express.Router()
 
 //routing
 //register || method post
-router.post("/register" , registerContoller)
+router.post("/register", registerController);
+
+//router.post("/api/v1/auth/register", registerContoller);
 
 //LOGIN || POST
 router.post('/login',loginController)

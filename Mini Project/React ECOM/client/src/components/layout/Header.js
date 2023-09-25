@@ -32,7 +32,7 @@ const Header = () => {
                 </NavLink>
               </li>
               <li className="nav-item">
-                  <NavLink to="category" className="nav-link">
+                  <NavLink to="/RegLog" className="nav-link">
                     Category
                   </NavLink>
                 </li>
@@ -42,7 +42,7 @@ const Header = () => {
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink to="/login" className="nav-link">
+                <NavLink to="/Login" className="nav-link">
                  <BiSolidLogIn/> Login
                 </NavLink>
               </li>
