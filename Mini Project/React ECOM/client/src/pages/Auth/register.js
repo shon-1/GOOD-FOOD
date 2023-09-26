@@ -4,7 +4,8 @@ import Layout from '../../components/layout/Layout';
 import "../../index.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; //redirect
-import toast from "react-hot-toast";
+import toast  from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 
 //2:18:10 --------------------------------------------------------------------------
 //state
@@ -34,6 +35,7 @@ const Register = () => {
       });
       if (res && res.data.success) {
         toast.success(res.data && res.data.message);
+        //duration: 5000, // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
         navigate("/login");
       } else {
         toast.error(res.data.message);
@@ -42,6 +44,7 @@ const Register = () => {
       console.log(error);
       toast.error("Something went wrong");
     }
+    
   };
 
   //--------------------------------------
@@ -111,6 +114,7 @@ const Register = () => {
             REGISTER
           </button>
         </form>
+        <Toaster />
       </div>
     </Layout>);
 };
