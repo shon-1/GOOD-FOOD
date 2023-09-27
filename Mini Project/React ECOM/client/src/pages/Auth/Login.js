@@ -18,9 +18,7 @@ const Login = () => {
         password,
       });
       if (res && res.data.success) {
-        toast.success(res.data && res.data.message,{
-          icon: "♥️", // You can use any suitable Unicode character, or an SVG icon, for the success icon
-        });
+        toast.success(res.data && res.data.message);
         
         navigate("/cart"); // Redirect to dashboard or any other page after successful login
       } else {
