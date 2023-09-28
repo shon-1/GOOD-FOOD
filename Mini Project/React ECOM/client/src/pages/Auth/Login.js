@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import Layout from '../../components/layout/Layout';
-import "../../index.css";
+//import "../../index.css";
+import "../../styles/form.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; //redirect
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
+import { useAuth } from "../../context/auth";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [auth,setAuth] = useAuth();
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -19,7 +23,13 @@ const Login = () => {
         password,
       });
       if (res && res.data.success) {
-        toast.success(res.data && res.data.message);        
+        toast.success(res.data && res.data.message);
+        
+  setAuth({
+    ...auth,
+    user:res.data.user,
+    token:res.data.token,
+  });        
         setTimeout(() => {
           navigate("/");
         }, 100);

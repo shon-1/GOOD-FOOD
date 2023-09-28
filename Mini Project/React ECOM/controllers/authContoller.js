@@ -104,12 +104,14 @@
                 success:true,
                 message:"login sucessfull",
                 user:{
+                    _id:user._id,
                     name:user.name,
                     email:user.email,
                     phone:user.email,
-                    address:user.address
+                    address:user.address,
+                    role:user.role,            
                 },
-                token
+                token,
             });
 
 
