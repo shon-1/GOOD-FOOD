@@ -31,6 +31,7 @@ const Login = () => {
     token:res.data.token,
   });        
         setTimeout(() => {
+          localStorage.setItem('auth',JSON.stringify(res.data))  //data dont go on refresh
           navigate("/");
         }, 100);
       } else {

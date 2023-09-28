@@ -7,7 +7,7 @@ import PageNotFound from "./pages/PageNotFound";
 import Policy from "./pages/Policy";
 import Register from "./pages/Auth/register";
 import Login from "./pages/Auth/Login";
-import RegLog from "./pages/RegLog";
+import RegLog from "./pages/Auth/RegLog";
 
 // Routes like container
 function App() {
