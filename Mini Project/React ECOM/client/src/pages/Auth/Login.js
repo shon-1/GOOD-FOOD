@@ -4,6 +4,7 @@ import "../../index.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; //redirect
 import toast from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -18,11 +19,13 @@ const Login = () => {
         password,
       });
       if (res && res.data.success) {
-        toast.success(res.data && res.data.message);
-        
-        navigate("/cart"); // Redirect to dashboard or any other page after successful login
+        toast.success(res.data && res.data.message);        
+        setTimeout(() => {
+          navigate("/");
+        }, 100);
       } else {
         toast.error(res.data.message);
+        //navigate("/register"); 
       }
     } catch (error) {
       console.log(error);
@@ -63,6 +66,7 @@ const Login = () => {
           </button>
         </form>
       </div>
+      <Toaster />
     </Layout>
   );
 };

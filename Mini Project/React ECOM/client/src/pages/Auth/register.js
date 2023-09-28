@@ -32,11 +32,13 @@ const Register = () => {
         phone,
         address,
         
-      });
+        });
       if (res && res.data.success) {
         toast.success(res.data && res.data.message);
-        //duration: 5000, // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-        navigate("/login");
+        setTimeout(() => {
+          navigate("/login");
+        }, 100);
+        
       } else {
         toast.error(res.data.message);
       }

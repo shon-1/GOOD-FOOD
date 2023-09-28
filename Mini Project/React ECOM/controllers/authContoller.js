@@ -101,7 +101,7 @@
                 expiresIn:"7d",
             });
             res.status(200).send({
-                sucess:true,
+                success:true,
                 message:"login sucessfull",
                 user:{
                     name:user.name,
