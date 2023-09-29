@@ -1,5 +1,4 @@
 import React from "react";
-import { NavLink,Link } from "react-router-dom";
 import { NavLink, Link } from "react-router-dom";
 import { GrRestaurant } from 'react-icons/gr';
 import { AiFillHome } from 'react-icons/ai';
@@ -8,16 +7,16 @@ import { useAuth } from "../../context/auth";
 
 const Header = () => {
   const [auth, setAuth] = useAuth();
-  
+
   const handleLogout = () => {
-    localStorage.removeItem('token')
-    
+    localStorage.removeItem('auth')
+
     setAuth({
       ...auth,
-      user:null,
-      token:"",
+      user: null,
+      token: "",
       //localStorage:removeItem('token'),
-      
+
     });
 
   };
@@ -52,7 +51,7 @@ const Header = () => {
                   Category
                 </NavLink>
               </li>
-              
+
               {
                 !auth.user ? (
 
@@ -72,7 +71,7 @@ const Header = () => {
                 ) : (
                   <>
                     <li className="nav-item">
-                    <NavLink onClick={handleLogout} to="/Login" className="nav-link">
+                      <NavLink onClick={handleLogout} to="/Login" className="nav-link">
                         <BiSolidLogIn /> Logout
                       </NavLink>
                     </li>
@@ -82,7 +81,7 @@ const Header = () => {
 
               }
               <li className="nav-item">
-                <NavLink to="/cart" className="nav-link">
+                <NavLink to="/dashboard" className="nav-link">
                   Cart (0)
                 </NavLink>
               </li>

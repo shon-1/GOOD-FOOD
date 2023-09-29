@@ -1,14 +1,10 @@
-
 import React, { useState } from "react";
-import Layout from '../../components/layout/Layout';
+import Layout from "../../components/layout/Layout";
 import "../../index.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; //redirect
-import toast  from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
-
-//2:18:10 --------------------------------------------------------------------------
-//state
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -16,29 +12,103 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
-  // [answer, setAnswer] = useState("");
-  const navigate = useNavigate();  // veriable for navigate
+  const [passwordStrength, setPasswordStrength] = useState("weak");
+  const navigate = useNavigate();
 
-  // form function-------------------------------------------------------------------
+  const handleWhitespaceValidation = (value) => {
+    // Check for leading whitespace
+    if (value.startsWith(" ")) {
+      toast.dismiss();
+      toast.error("Leading whitespace is not allowed.");
+      return false;
+    }
+    return true;
+  };
+
+  const handleNameValidation = (value) => {
+    // Check if the value contains only alphabetic characters
+    const namePattern = /^[A-Za-z0-9]+$/;
+    if (!namePattern.test(value)) {
+      toast.dismiss();
+      toast.error("Name should contain only alphabetic characters.");
+      return false;
+    }
+    return true;
+  };
+
+  const handlePhoneValidation = (value) => {
+    // Check if the value contains only numbers
+    const phonePattern = /^[0-9]*$/; // Allow an empty string or only numeric characters
+    if (!phonePattern.test(value)) {
+      toast.dismiss();
+      toast.error("Phone number should contain only numbers.");
+      return false;
+    }
+    return true;
+  };
+
+  const handlePasswordStrength = (value) => {
+    // Check password strength (at least one letter and one number)
+    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+    if (passwordPattern.test(value)) {
+      setPasswordStrength("strong");
+    } else if (value.length >= 8) {
+      setPasswordStrength("moderate");
+    } else {
+      setPasswordStrength("weak");
+    }
+  };
+
   const handleSubmit = async (e) => {
-    e.preventDefault(); //refresh OFF
+    e.preventDefault();
+
+    // Basic validation
+    if (!name || !email || !password || !phone || !address) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
+
+    // Email validation using a regular expression
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!emailPattern.test(email)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+
+    // Whitespace validation
+    if (!handleWhitespaceValidation(name)) return;
+    if (!handleWhitespaceValidation(email)) return;
+    if (!handleWhitespaceValidation(password)) return;
+    if (!handleWhitespaceValidation(phone)) return;
+    if (!handleWhitespaceValidation(address)) return;
+
+    // Name validation
+    if (!handleNameValidation(name)) return;
+
+    // Phone number validation
+    if (!handlePhoneValidation(phone)) return;
+
+    // Password strength validation
+    if (passwordStrength === "weak") {
+      toast.error("Password is too weak.");
+      return;
+    }
+
+    // Other custom validation rules can be added here
+
     try {
-      //const res = await axios.post('/api/v1/auth/register', 
-      const res = await axios.post('http://localhost:8080/api/v1/auth/register', 
-        {
+      const res = await axios.post("http://localhost:8080/api/v1/auth/register", {
         name,
         email,
         password,
         phone,
         address,
-        
-        });
+      });
       if (res && res.data.success) {
-        toast.success(res.data && res.data.message);
+        toast.success(res.data.message);
         setTimeout(() => {
           navigate("/login");
         }, 100);
-        
       } else {
         toast.error(res.data.message);
       }
@@ -46,10 +116,7 @@ const Register = () => {
       console.log(error);
       toast.error("Something went wrong");
     }
-    
   };
-
-  //--------------------------------------
 
   return (
     <Layout title="Register - Ecommer App">
@@ -60,9 +127,12 @@ const Register = () => {
             <input
               type="text"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => {
+                setName(e.target.value);
+                handleWhitespaceValidation(e.target.value);
+                handleNameValidation(e.target.value);
+              }}
               className="form-control"
-              id="exampleInputEmail1"
               placeholder="Enter Your Name"
               required
               autoFocus
@@ -72,10 +142,12 @@ const Register = () => {
             <input
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                handleWhitespaceValidation(e.target.value);
+              }}
               className="form-control"
-              id="exampleInputEmail1"
-              placeholder="Enter Your Email "
+              placeholder="Enter Your Email"
               required
             />
           </div>
@@ -83,20 +155,27 @@ const Register = () => {
             <input
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                handleWhitespaceValidation(e.target.value);
+                handlePasswordStrength(e.target.value);
+              }}
               className="form-control"
-              id="exampleInputPassword1"
               placeholder="Enter Your Password"
               required
             />
+            <div className={`password-strength ${passwordStrength}`} />
           </div>
           <div className="mb-3">
             <input
               type="text"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={(e) => {
+                setPhone(e.target.value);
+                handleWhitespaceValidation(e.target.value);
+                handlePhoneValidation(e.target.value);
+              }}
               className="form-control"
-              id="exampleInputEmail1"
               placeholder="Enter Your Phone"
               required
             />
@@ -105,9 +184,11 @@ const Register = () => {
             <input
               type="text"
               value={address}
-              onChange={(e) => setAddress(e.target.value)}
+              onChange={(e) => {
+                setAddress(e.target.value);
+                handleWhitespaceValidation(e.target.value);
+              }}
               className="form-control"
-              id="exampleInputEmail1"
               placeholder="Enter Your Address"
               required
             />
@@ -118,7 +199,8 @@ const Register = () => {
         </form>
         <Toaster />
       </div>
-    </Layout>);
+    </Layout>
+  );
 };
 
 export default Register;
