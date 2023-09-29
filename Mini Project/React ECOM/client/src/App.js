@@ -8,23 +8,32 @@ import Policy from "./pages/Policy";
 import Register from "./pages/Auth/register";
 import Login from "./pages/Auth/Login";
 import RegLog from "./pages/Auth/RegLog";
+import Dashboard from "./pages/user/Dashboard";
+import PrivateRoute from "./components/Router/Private";
 
 // Routes like container
 function App() {
   return (
     <>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
+
+    <Routes>
+    <Route path="/" element={<HomePage />} />
+        <Route path="/dashboard" element={<PrivateRoute />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+
+        </Route>
+
         <Route path="/about" element={<About />} />
         <Route path="/Contact" element={<Contact />} />
         <Route path="/Policy" element={<Policy />} />
-        <Route path="/register" element={<Register/>} />
-        
-        <Route path="/Login" element={<Login/>} />
+        <Route path="/register" element={<Register />} />
+
+        <Route path="/Login" element={<Login />} />
         <Route path="/*" element={<PageNotFound />} />
         <Route path="/RegLog" element={<RegLog />} />
-      </Routes>
-    </>
+
+    </Routes>
+   </>
   );
 }
 

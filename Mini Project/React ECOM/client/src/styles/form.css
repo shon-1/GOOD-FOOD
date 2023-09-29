@@ -62,3 +62,10 @@
     color: white !important;
   }
   
+  .center-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* You can adjust this value to control the height of the centering container */
+  }
+  

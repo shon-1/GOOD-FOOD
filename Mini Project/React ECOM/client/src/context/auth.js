@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext, createContext } from "react";
 import { json } from "react-router-dom";
-//import axios from "axios";
+import axios from "axios";
 
 const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
@@ -11,18 +11,25 @@ const AuthProvider = ({ children }) => {
         // console.log(token)
         //console.log(error)
     });
+
+//default axios
+axios.defaults.headers.common['Authorization'] = auth?.token;
+
     useEffect(() => {                                             //print data from local storage
         const data = localStorage.getItem('auth')
         if (data) {
             const parseData = JSON.parse(data)
             {
+                
                 setAuth({
                     ...auth,
                     user: parseData.user,
                     token: parseData.token
                 })
             }
-        }
+        }    
+    //eslint-disable-next-line
+
     }, [])
 
     return (
