@@ -7,6 +7,7 @@ import { useNavigate , useLocation } from "react-router-dom"; //redirect
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 import { useAuth } from "../../context/auth";
+import { NavLink } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -74,16 +75,9 @@ const Login = () => {
             />
           </div>
           <div className="mb-3">
-            <button
-              type="button"
-              className="btn forgot-btn"
-              onClick={() => {
-                navigate("/forgot-password");
-              }}
-            >
-              Forgot Password
-            </button>
+          <NavLink to="/forgot-password" className="forgot-link">Forgot Password</NavLink>
           </div>
+          
 
           <button type="submit" className="btn btn-primary">
             LOGIN

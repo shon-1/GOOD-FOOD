@@ -10,6 +10,7 @@ import Login from "./pages/Auth/Login";
 import RegLog from "./pages/Auth/RegLog";
 import Dashboard from "./pages/user/Dashboard";
 import PrivateRoute from "./components/Router/Private";
+import ForgotPasssword from "./pages/Auth/ForgotPassword";
 
 // Routes like container
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path="/register" element={<Register />} />
 
         <Route path="/Login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPasssword />} />
         <Route path="/*" element={<PageNotFound />} />
         <Route path="/RegLog" element={<RegLog />} />
 

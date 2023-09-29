@@ -12,6 +12,8 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const [answer, setAnswer] = useState("");
+  
   const [passwordStrength, setPasswordStrength] = useState("weak");
   const navigate = useNavigate();
 
@@ -103,6 +105,7 @@ const Register = () => {
         password,
         phone,
         address,
+        answer,
       });
       if (res && res.data.success) {
         toast.success(res.data.message);
@@ -193,6 +196,20 @@ const Register = () => {
               required
             />
           </div>
+          <div className="mb-3">
+            <input
+              type="text"
+              value={answer}
+              onChange={(e) => {
+                setAnswer(e.target.value);
+                handleWhitespaceValidation(e.target.value);
+              }}
+              className="form-control"
+              placeholder="Favorite color ? "
+              required
+            />
+          </div>
+
           <button type="submit" className="btn btn-primary">
             REGISTER
           </button>
