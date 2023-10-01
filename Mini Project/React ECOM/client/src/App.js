@@ -10,7 +10,10 @@ import Login from "./pages/Auth/Login";
 import RegLog from "./pages/Auth/RegLog";
 import Dashboard from "./pages/user/Dashboard";
 import PrivateRoute from "./components/Router/Private";
+import AdminRoute from "./components/Router/AdminRoute"
 import ForgotPasssword from "./pages/Auth/ForgotPassword";
+import Userdashboard from "./pages/user/Userdashboard";
+import AdminDashboard from "./pages/Admin/AdminDashboard";
 
 // Routes like container
 function App() {
@@ -19,12 +22,19 @@ function App() {
 
     <Routes>
     <Route path="/" element={<HomePage />} />
-        <Route path="/dashboard" element={<PrivateRoute />}>
-        <Route path="/dashboard" element={<Dashboard />} />
-
+        <Route path="/Dashboard" element={<PrivateRoute />}>
+            <Route path="Userdashboard" element={<Userdashboard />} />
+            <Route path="" element={<Dashboard />} />
         </Route>
+        <Route path="/Dashboard" element={<AdminRoute/>}>
+            <Route path="AdminDashboard" element={<AdminDashboard />} />
+            <Route path="" element={<Dashboard />} />
+        </Route>
+        
 
         <Route path="/about" element={<About />} />
+        <Route path="/a" element={<About />} />
+
         <Route path="/Contact" element={<Contact />} />
         <Route path="/Policy" element={<Policy />} />
         <Route path="/register" element={<Register />} />

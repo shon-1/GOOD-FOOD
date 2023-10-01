@@ -44,15 +44,16 @@ const Header = () => {
               </>
             ) : (
               <NavDropdown title={auth?.user?.name} id="basic-nav-dropdown">
-    <NavDropdown.Item as={Link} to={`/dashboard/${auth?.user?.role === 1 ? "admin" : "user"}`}>
+              
+    <NavDropdown.Item as={Link} to={`/dashboard/${auth?.user?.role === '1' ? "AdminDashboard" : "Userdashboard"}`}>
       Dashboard
     </NavDropdown.Item>
     <NavDropdown.Item onClick={handleLogout} as={Link} to="/login">
-      Logout
+    <BiSolidLogIn /> Logout
     </NavDropdown.Item>
   </NavDropdown>
             )}
-            <Nav.Link as={Link} to="/dashboard">
+            <Nav.Link as={Link} to="/Dashboard">
               Cart (0)
             </Nav.Link>
           </Nav>
@@ -63,3 +64,7 @@ const Header = () => {
 };
 
 export default Header;
+
+
+
+

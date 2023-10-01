@@ -33,9 +33,11 @@ const Login = () => {
           token: res.data.token,
         });
         localStorage.setItem("auth", JSON.stringify(res.data));
+    
         setTimeout(() => {
           navigate(location.state || "/");
-        }, 100);
+        }, 100); 
+       
         
       } else {
         toast.error(res.data.message);
