@@ -45,7 +45,7 @@ const Header = () => {
             ) : (
               <NavDropdown title={auth?.user?.name} id="basic-nav-dropdown">
               
-    <NavDropdown.Item as={Link} to={`/dashboard/${auth?.user?.role === '1' ? "AdminDashboard" : "Userdashboard"}`}>
+    <NavDropdown.Item as={Link} to={`/Dashboard/${auth?.user?.role === '1' ? "AdminDashboard" : "Userdashboard"}`}>
       Dashboard
     </NavDropdown.Item>
     <NavDropdown.Item onClick={handleLogout} as={Link} to="/login">

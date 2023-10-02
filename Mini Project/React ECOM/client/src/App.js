@@ -14,38 +14,41 @@ import AdminRoute from "./components/Router/AdminRoute"
 import ForgotPasssword from "./pages/Auth/ForgotPassword";
 import Userdashboard from "./pages/user/Userdashboard";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
+import Users from "./pages/Admin/Users";
+import CreateCategory from "./pages/Admin/CreateCategory";
+import CreateProduct from "./pages/Admin/CreateProduct";
 
 // Routes like container
 function App() {
   return (
     <>
 
-    <Routes>
-    <Route path="/" element={<HomePage />} />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
         <Route path="/Dashboard" element={<PrivateRoute />}>
-            <Route path="Userdashboard" element={<Userdashboard />} />
-            <Route path="" element={<Dashboard />} />
+          <Route path="Userdashboard" element={<Userdashboard />} />
+          <Route path="" element={<Dashboard />} />
         </Route>
-        <Route path="/Dashboard" element={<AdminRoute/>}>
-            <Route path="AdminDashboard" element={<AdminDashboard />} />
-            <Route path="" element={<Dashboard />} />
+        <Route path="/Dashboard" element={<AdminRoute />}>
+          <Route path="AdminDashboard" element={<AdminDashboard />} />
+          <Route path="AdminDashboard/create-category" element={<CreateCategory />} />
+          <Route path="AdminDashboard/create-product" element={<CreateProduct />} />
+          <Route path="AdminDashboard/Users" element={<Users />} />
+
         </Route>
-        
+
 
         <Route path="/about" element={<About />} />
-        <Route path="/a" element={<About />} />
-
         <Route path="/Contact" element={<Contact />} />
         <Route path="/Policy" element={<Policy />} />
         <Route path="/register" element={<Register />} />
-
         <Route path="/Login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPasssword />} />
         <Route path="/*" element={<PageNotFound />} />
         <Route path="/RegLog" element={<RegLog />} />
 
-    </Routes>
-   </>
+      </Routes>
+    </>
   );
 }
 

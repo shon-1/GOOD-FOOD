@@ -4,40 +4,42 @@ const AdminMenu = () => {
   return (
     <>
       <div className="text-center">
+        
         <div className="list-group dashboard-menu">
-          <h4>Admin Panel</h4>
-          <NavLink
-            to="/dashboard/admin/create-category"
-            className="list-group-item list-group-item-action"
-          >
-            Create Category
-          </NavLink>
-          <NavLink
-            to="/dashboard/admin/create-product"
-            className="list-group-item list-group-item-action"
-          >
-            Create Product
-          </NavLink>
-          <NavLink
-            to="/dashboard/admin/products"
+        <NavLink to="/Dashboard/AdminDashboard"><h4>Admin Panel</h4></NavLink>
+       
+        <NavLink
+          to="/Dashboard/AdminDashboard/create-category"
+          className="list-group-item list-group-item-action"
+        >
+          Create Category
+        </NavLink>
+        <NavLink
+          to="/Dashboard/AdminDashboard/create-product"
+          className="list-group-item list-group-item-action"
+        >
+          Create Product
+        </NavLink>
+        {/* <NavLink
+            to="Dashboard/products"
             className="list-group-item list-group-item-action"
           >
             Products
           </NavLink>
           <NavLink
-            to="/dashboard/admin/orders"
+            to="Dashboard/orders"
             className="list-group-item list-group-item-action"
           >
             Orders
-          </NavLink>
-          {/* <NavLink
-            to="/dashboard/admin/users"
-            className="list-group-item list-group-item-action"
-          >
-            Users
           </NavLink> */}
-        </div>
+        <NavLink
+          to="/Dashboard/AdminDashboard/Users"
+          className="list-group-item list-group-item-action"
+        >
+          Users
+        </NavLink>
       </div>
+    </div >
     </>
   );
 };
