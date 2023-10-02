@@ -17,24 +17,29 @@ import AdminDashboard from "./pages/Admin/AdminDashboard";
 import Users from "./pages/Admin/Users";
 import CreateCategory from "./pages/Admin/CreateCategory";
 import CreateProduct from "./pages/Admin/CreateProduct";
+import Orders from "./pages/user/Orders";
+import Profile from "./pages/user/Profile";
 
 // Routes like container
 function App() {
   return (
     <>
-
       <Routes>
         <Route path="/" element={<HomePage />} />
+
         <Route path="/Dashboard" element={<PrivateRoute />}>
+          <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="Userdashboard" element={<Userdashboard />} />
-          <Route path="" element={<Dashboard />} />
+          <Route path="Userdashboard/Orders" element={<Orders />} />
+          <Route path="Userdashboard/Profile" element={<Profile />} />
         </Route>
+
         <Route path="/Dashboard" element={<AdminRoute />}>
+          <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="AdminDashboard" element={<AdminDashboard />} />
           <Route path="AdminDashboard/create-category" element={<CreateCategory />} />
           <Route path="AdminDashboard/create-product" element={<CreateProduct />} />
           <Route path="AdminDashboard/Users" element={<Users />} />
-
         </Route>
 
 
