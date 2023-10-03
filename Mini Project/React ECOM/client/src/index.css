@@ -10,45 +10,103 @@ font-family: 'Poppins', sans-serif;
 }
 
 /* navbar css */
-
-.navbar{
-    font-family: 'Poppins', sans-serif;
-    font-size: 17px;
-    line-height: 26px;
-    text-transform: uppercase;
-    box-shadow: 0px 8px 6px -6px grey ;
-    ---webkit-box-shadow: 0 8px 6px -6px grey;
-    border-bottom: solid grey !important;
+/* Add rounded edges to the Navbar */
+.navbar {
+  font-family: 'Poppins', sans-serif;
+  font-size: 17px;
+  line-height: 26px;
+  text-transform: uppercase;
+  box-shadow: 0px 8px 6px -6px rgb(185, 65, 65);
+  border-bottom: solid rgb(9, 20, 231) !important;
+  border-radius: 500px; /* Add rounded corners */
+  overflow: hidden; /* Ensure rounded corners are visible */
+  transition: all 0.3s ease; /* Add smooth transition */
 }
+
+/* Rounded corners for NavLinks */
 .nav-link {
-    font-weight: 300 !important;
-  }
-  
-  .active {
-    border-bottom: 2px solid blue;
-  }
-  
-  .navbar-brand {
-    font-weight: 700;
-    font-family: "roboto", sans-serif;
-    letter-spacing: 3px;
-  }
+  font-weight: 300 !important;
+  border-radius: 10px; /* Add rounded corners */
+  transition: background-color 0.3s ease; /* Add smooth transition */
+}
 
+/* Add a hover effect to NavLinks */
+.nav-link:hover {
+  background-color: #bbb9da; /* Change background color on hover */
+}
 
+/* Style the active NavLink */
+.active {
+  border-bottom: 80px solid blue;
+  background-color: transparent; /* Remove background color for active NavLink */
+}
+
+/* Navbar brand styles */
+.navbar-brand {
+  font-weight: 700;
+  font-family: "Roboto", sans-serif; /* Correct font-family property */
+  letter-spacing: 3px;
+}
+
+/* Add some padding to Navbar links */
+.navbar-nav .nav-link {
+  padding: 10px 20px; /* Adjust as needed */
+}
+
+/* Add animations to the Navbar */
+.navbar-enter-active,
+.navbar-leave-active {
+  transition: all 0.3s ease;
+}
+
+.navbar-enter, .navbar-leave-to /* .navbar-leave-active in <2.1.8 */ {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+/* Style the Navbar Toggle button */
+.navbar-toggler-icon {
+  background-color: #ce3a3a; /* Toggle button background color */
+  border-radius: 5px; /* Add rounded corners */
+}
+
+/* Change color of Navbar Toggle icon */
+.navbar-toggler-icon span {
+  background-color: #a71e1e; /* Icon color */
+}
+
+/* Adjust Navbar brand and NavLinks spacing */
+.navbar-brand,
+.nav-link {
+  margin-right: 15px;
+}
+
+/* Style the Cart NavLink */
+.nav-link.cart-link {
+  position: relative; /* Add relative positioning */
+}
+
+/* Style the Cart badge */
+.cart-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: red; /* Badge background color */
+  color: #fff; /* Text color */
+  border-radius: 50%; /* Make it circular */
+  padding: 3px 8px; /* Adjust padding as needed */
+  font-size: 12px;
+}
   /* =============================
 ==========footer============= */
 
 .footer {
-    color: white;
-    padding: 25px;
-    background: #000000; /* fallback for old browsers */
-    background: -webkit-linear-gradient(
-      to right,
-      #434343,
-      #000000
-    ); /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #434343, #000000);
-  }
+  color: white;
+  padding: 25px;
+  background: linear-gradient(135deg, #1b0e58, #656e15, #08510d); /* Updated gradient colors */
+  border-radius: 20px; 
+}
+
   
   .footer a {
     text-decoration: none;
