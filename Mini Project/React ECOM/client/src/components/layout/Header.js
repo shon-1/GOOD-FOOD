@@ -6,7 +6,6 @@ import { BiSolidLogIn } from 'react-icons/bi';
 import { useAuth } from "../../context/auth";
 import { Link } from "react-router-dom";
 
-
 const Header = () => {
   const [auth, setAuth] = useAuth();
 
@@ -20,41 +19,42 @@ const Header = () => {
   };
 
   return (
-    <Navbar className="custom-navbar" expand="lg"> {/* Apply custom-navbar class */}
+    <Navbar bg="body-tertiary" expand="lg">
       <div className="container-fluid">
         <Navbar.Toggle aria-controls="navbarTogglerDemo01" />
         <Navbar.Collapse id="navbarTogglerDemo01">
-          <Link to="/" className="navbar-brand custom-brand"> {/* Apply custom-brand class */}
+          <Link to="/" className="navbar-brand">
             <GrRestaurant />🥘 Good - food
           </Link>
           <Nav className="ms-auto mb-2 mb-lg-0">
-            <Nav.Link as={Link} to="/" className="custom-link"> {/* Apply custom-link class */}
+            <Nav.Link as={Link} to="/">
               <AiFillHome /> Home
             </Nav.Link>
-            <Nav.Link as={Link} to="/RegLog" className="custom-link"> {/* Apply custom-link class */}
+            <Nav.Link as={Link} to="/RegLog">
               Category
             </Nav.Link>
             {!auth.user ? (
               <>
-                <Nav.Link as={Link} to="/register" className="custom-link"> {/* Apply custom-link class */}
+                <Nav.Link as={Link} to="/register">
                   Register
                 </Nav.Link>
-                <Nav.Link as={Link} to="/login" className="custom-link"> {/* Apply custom-link class */}
+                <Nav.Link as={Link} to="/login">
                   <BiSolidLogIn /> Login
                 </Nav.Link>
               </>
             ) : (
               <NavDropdown title={auth?.user?.name} id="basic-nav-dropdown">
-                <NavDropdown.Item as={Link} to={`/Dashboard/${auth?.user?.role === '1' ? "AdminDashboard" : "UserDashboard"}`} className="custom-link"> {/* Apply custom-link class */}
-                  Dashboard
-                </NavDropdown.Item>
-                <NavDropdown.Item onClick={handleLogout} as={Link} to="/login" className="custom-link"> {/* Apply custom-link class */}
-                  <BiSolidLogIn /> Logout
-                </NavDropdown.Item>
-              </NavDropdown>
+              
+    <NavDropdown.Item as={Link} to={`/Dashboard/${auth?.user?.role === '1' ? "AdminDashboard" : "UserDashboard"}`}>
+      Dashboard
+    </NavDropdown.Item>
+    <NavDropdown.Item onClick={handleLogout} as={Link} to="/login">
+    <BiSolidLogIn /> Logout
+    </NavDropdown.Item>
+  </NavDropdown>
             )}
-            <Nav.Link as={Link} to="/Dashboard" className="custom-link cart-link"> {/* Apply custom-link and cart-link classes */}
-              Cart <span className="cart-badge">0</span> {/* Apply cart-badge class */}
+            <Nav.Link as={Link} to="/Dashboard">
+              Cart (0)
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
@@ -64,3 +64,7 @@ const Header = () => {
 };
 
 export default Header;
+
+
+
+
