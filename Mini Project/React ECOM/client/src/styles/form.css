@@ -1,28 +1,35 @@
 /* ===================================
 ========= register page  */
 .form-container {
-    margin-top: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 70vh;
-    flex-direction: column;
-    background-color: #ffdee9;
-    background-image: linear-gradient(0deg, #ffdee9 0%, #b5fffc 100%);
-  }
+  margin-top: 10px;
+  margin-bottom: 10px; /* Add margin-bottom */
+  margin-right: 10px;  /* Add margin-right */
+  margin-left: 10px;   /* Add margin-left */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40vh; /* Reduce the min-height value */
+  flex-direction: column;
+  background-color: #ffdee9;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #1a0578, #8a29f7, #ff0080);
+}
+
   
   .form-container form {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     padding: 20px;
     background-color: #fff;
+    border-radius: 40px;
   }
   
   .form-container form .title {
     text-align: center;
     margin-bottom: 15px;
     font-weight: bold;
-    font-family: "Playfair Display", serif;
+    font-family: "Courier New", serif; 
   }
+  
   
   .form-container form input {
     border: none;
@@ -32,11 +39,13 @@
   
   .form-container form button {
     border: 1px solid black;
-    border-radius: 0;
-    background-color: #000;
-    color: white;
+    border-radius: 20px; 
+    background-color: hwb(208 65% 11%);
+    color: rgb(18, 17, 17);
     width: 250px;
+    font-family: "Fira Code", sans-serif; 
   }
+  
   
   .form-container form button:hover {
     border: 1px solid black;
