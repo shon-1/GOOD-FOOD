@@ -180,14 +180,12 @@ export const updateProfileController = async (req, res) => {
     try {
       const { name, email, password, address, phone } = req.body;
       const user = await userModel.findById(req.user._id);
-  
-      console.log("Request Body:", req.body); // Add this line for debugging
-      console.log("Found User:", user); // Add this line for debugging
-  
+
       if (password && password.length < 6) {
-        return res.json({ error: "Password is required and must be at least 6 characters long" });
-      }
+        return res.json({ error: "Password is required and must be at least 6 characters long" });}
+        
       const hashedPassword = password ? await hashPassword(password) : undefined;
+
       const updatedUser = await userModel.findByIdAndUpdate(
         req.user._id,
         {
@@ -199,7 +197,7 @@ export const updateProfileController = async (req, res) => {
         { new: true }
       );
   
-      console.log("Updated User:", updatedUser); // Add this line for debugging
+      console.log("Updated User:"); 
   
       res.status(200).send({
         success: true,
@@ -207,7 +205,7 @@ export const updateProfileController = async (req, res) => {
         updatedUser,
       });
     } catch (error) {
-      console.error("Error:", error); // Add this line for debugging
+      
       res.status(400).send({
         success: false,
         message: "Error While Updating Profile",
@@ -215,4 +213,5 @@ export const updateProfileController = async (req, res) => {
       });
     }
   };
+  
   
