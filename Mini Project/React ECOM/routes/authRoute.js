@@ -18,7 +18,7 @@ router.post('/login',loginController)
 
 
 //Forgot Password || POST
-router.post("/forgot-password", forgotPasswordController);
+//router.post("/forgot-password", forgotPasswordController);
 
 
 //test Route
@@ -36,5 +36,9 @@ router.get("/admin-auth",requireSignIn,isAdmin,(req,res) => {
 
 //update profile
 router.put("/profile", requireSignIn, updateProfileController);
+
+// Forgot Password || POST
+router.post("/forgot-password", forgotPasswordController);
+
 
 export default router;

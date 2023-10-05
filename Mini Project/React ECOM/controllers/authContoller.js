@@ -6,7 +6,7 @@ import JWT from 'jsonwebtoken';
 export const registerContoller = async (req, res) => {
     try {
         console.log("Received registration request #########");
-        const { name, email, password, phone, address,answer } = req.body
+        const { name, email, password, phone, address, answer } = req.body
         //validation
         if (!name) {
             return res.send({ error: 'Name is Required' })
@@ -51,7 +51,7 @@ export const registerContoller = async (req, res) => {
         }
 
         //save
-        const user = await new userModel({ name, email, phone, address, password: hashedPassword,answer }).save()
+        const user = await new userModel({ name, email, phone, address, password: hashedPassword, answer }).save()
 
         res.status(201).send({
             success: true,
@@ -132,7 +132,7 @@ export const loginController = async (req, res) => {
 
 //--------------------------------------------------------------------forgot password
 
-export const forgotPasswordController = async (req, res) => {
+export const forgotPasswordController1 = async (req, res) => {
     try {
         const { email, answer, newPassword } = req.body;
         if (!email) {
@@ -178,40 +178,106 @@ export const testController = (req, res) => {
 
 export const updateProfileController = async (req, res) => {
     try {
-      const { name, email, password, address, phone } = req.body;
-      const user = await userModel.findById(req.user._id);
+        const { name, email, password, address, phone } = req.body;
+        const user = await userModel.findById(req.user._id);
 
-      if (password && password.length < 6) {
-        return res.json({ error: "Password is required and must be at least 6 characters long" });}
-        
-      const hashedPassword = password ? await hashPassword(password) : undefined;
+        if (password && password.length < 6) {
+            return res.json({ error: "Password is required and must be at least 6 characters long" });
+        }
 
-      const updatedUser = await userModel.findByIdAndUpdate(
-        req.user._id,
-        {
-          name: name || user.name,
-          password: hashedPassword || user.password,
-          phone: phone || user.phone,
-          address: address || user.address,
-        },
-        { new: true }
-      );
-  
-      console.log("Updated User:"); 
-  
-      res.status(200).send({
-        success: true,
-        message: "Profile Updated Successfully",
-        updatedUser,
-      });
+        const hashedPassword = password ? await hashPassword(password) : undefined;
+
+        const updatedUser = await userModel.findByIdAndUpdate(
+            req.user._id,
+            {
+                name: name || user.name,
+                password: hashedPassword || user.password,
+                phone: phone || user.phone,
+                address: address || user.address,
+            },
+            { new: true }
+        );
+
+        console.log("Updated User:");
+
+        res.status(200).send({
+            success: true,
+            message: "Profile Updated Successfully",
+            updatedUser,
+        });
     } catch (error) {
-      
-      res.status(400).send({
-        success: false,
-        message: "Error While Updating Profile",
-        error,
-      });
+
+        res.status(400).send({
+            success: false,
+            message: "Error While Updating Profile",
+            error,
+        });
     }
-  };
-  
-  
+};
+
+export const forgotPasswordController = async (req, res) => {
+    try {
+        const { email } = req.body;
+        console.log("a")
+        if (!email) {
+            return res.status(400).send({ message: "Email is required" });
+        }
+
+        // Check if the user exists
+        const user = await userModel.findOne({ email });
+
+        // If the user doesn't exist, return an error
+        if (!user) {
+            return res.status(404).send({
+                success: false,
+                message: "User not found",
+            });
+        }
+
+        // Generate a password reset token
+        const token = JWT.sign({ _id: user._id }, process.env.JWT_SECRET, {
+            expiresIn: "1h", // You can adjust the expiration time as needed
+        });
+
+        // Create a transporter for sending emails (configure with your email provider)
+        const transporter = nodemailer.createTransport({
+            service: 'gmail', // e.g., 'Gmail', 'Yahoo', etc.
+            auth: {
+                user: 'aliyaaugust27@gmial.com', // Your email address
+                pass: 'bhatt@1964' // Your email password or app-specific password
+            }
+        });
+
+        // Configure email options
+        const mailOptions = {
+            from: 'aliyaaugust27@gmail.com',
+            to: user.email,
+            subject: 'Password Reset Link',
+            text: `Your password reset link: http://localhost:3000/reset-password/${token}`
+        };
+
+        // Send the email
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.error(error);
+                return res.status(500).send({
+                    success: false,
+                    message: "Failed to send reset password email",
+                    error,
+                });
+            } else {
+                return res.status(200).send({
+                    success: true,
+                    message: "Password reset email sent successfully",
+                });
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send({
+            success: false,
+            message: "Something went wrong",
+            error,
+        });
+    }
+};
