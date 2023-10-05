@@ -16,7 +16,6 @@
   background: linear-gradient(135deg, #6ac05b, #d6e0d7, #63e24d);
 }
 
-  
   .form-container form {
     box-shadow: rgba(12, 229, 99, 0.35) 0px 5px 15px;
     padding: 20px;
@@ -77,5 +76,58 @@
     justify-content: center;
     align-items: center;
     height: 100vh; /* You can adjust this value to control the height of the centering container */
+
   }
+
+
+
+  /* Add these CSS styles to your existing styles or index.css */
+.phone-input {
+  display: flex;
+  align-items: center;
+}
+
+.country-code-dropdown {
+  width: 80px; /* Adjust the width as needed */
+  margin-right: 10px;
+}
+
+.country-select {
+  width: 100%;
+}
+
+.custom-option {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+}
+
+.country-code-label {
+  margin-left: 5px;
+}
+
+  /*---------------------------------------------------------profile*/
+
+  
+.form-container-profile {
+  margin-top: 10px;
+  margin-bottom: 10px; /* Add margin-bottom */
+  margin-right: 10px;  /* Add margin-right */
+  margin-left: 10px;   /* Add margin-left */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40vh; /* Reduce the min-height value */
+  flex-direction: column;
+
+  border-radius: 15px;
+
+}
+  
+.form-container-profile form {
+  box-shadow: rgba(12, 229, 99, 0.35) 0px 5px 50px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 40px;
+}
   

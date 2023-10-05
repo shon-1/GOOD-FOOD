@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 
+
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -13,7 +14,7 @@ const Register = () => {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [answer, setAnswer] = useState("");
-  
+
   const [passwordStrength, setPasswordStrength] = useState("weak");
   const navigate = useNavigate();
 
@@ -103,7 +104,7 @@ const Register = () => {
         name,
         email,
         password,
-        phone,
+        phone: `${countryCode} ${phone}`,
         address,
         answer,
       });
@@ -120,6 +121,8 @@ const Register = () => {
       toast.error("Something went wrong");
     }
   };
+  // Add state for the selected country code
+  const [countryCode, setCountryCode] = useState("+91");
 
   return (
     <Layout title="Register - Ecommer App">
@@ -170,18 +173,33 @@ const Register = () => {
             <div className={`password-strength ${passwordStrength}`} />
           </div>
           <div className="mb-3">
-            <input
-              type="text"
-              value={phone}
-              onChange={(e) => {
-                setPhone(e.target.value);
-                handleWhitespaceValidation(e.target.value);
-                handlePhoneValidation(e.target.value);
-              }}
-              className="form-control"
-              placeholder="Enter Your Phone"
-              required
-            />
+            <div className="input-group">
+              <select
+                value={countryCode}
+                onChange={(e) => setCountryCode(e.target.value)}
+                className="form-select"
+                style={{ width: '0px', padding: '4px', maxHeight: '30px' }}
+              >
+                <option value="+91">+91 🇮🇳 </option>
+                <option value="+82">+82 🇰🇷 </option>
+                <option value="+86">+86 🇨🇳 </option>
+                <option value="+81">+81 🇯🇵 </option>
+                <option value="+1"> +01  🇨🇦 </option>
+                {/* Add more country code options here */}
+              </select>
+              <input
+                type="text"
+                value={phone}
+                onChange={(e) => {
+                  setPhone(e.target.value);
+                  handleWhitespaceValidation(e.target.value);
+                  handlePhoneValidation(e.target.value);
+                }}
+                className="form-control"
+                placeholder="Enter Your Phone"
+                required
+              />
+            </div>
           </div>
           <div className="mb-3">
             <input
