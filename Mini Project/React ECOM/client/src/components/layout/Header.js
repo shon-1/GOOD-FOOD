@@ -24,7 +24,7 @@ const Header = () => {
         <Navbar.Toggle aria-controls="navbarTogglerDemo01" />
         <Navbar.Collapse id="navbarTogglerDemo01">
           <Link to="/" className="navbar-brand">
-            <GrRestaurant />🥘 Good - food
+            <GrRestaurant /> Dream-Dish
           </Link>
           <Nav className="ms-auto mb-2 mb-lg-0">
             <Nav.Link as={Link} to="/">

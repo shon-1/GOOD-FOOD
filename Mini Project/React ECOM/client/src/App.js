@@ -19,6 +19,8 @@ import CreateCategory from "./pages/Admin/CreateCategory";
 import CreateProduct from "./pages/Admin/CreateProduct";
 import Orders from "./pages/user/Orders";
 import Profile from "./pages/user/Profile";
+import PasswordReset from "./pages/Auth/PasswordReset";
+import Cart from "./pages/Cart";
 
 // Routes like container
 function App() {
@@ -28,6 +30,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
 
         <Route path="/Dashboard" element={<PrivateRoute />}>
+          
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="Userdashboard" element={<Userdashboard />} />
           <Route path="Userdashboard/Orders" element={<Orders />} />
@@ -35,11 +38,13 @@ function App() {
         </Route>
 
         <Route path="/Dashboard" element={<AdminRoute />}>
-          <Route path="/Dashboard" element={<Dashboard />} />
+          <Route path="/Dashboard" element={<Dashboard />} />          
+        
           <Route path="AdminDashboard" element={<AdminDashboard />} />
           <Route path="AdminDashboard/create-category" element={<CreateCategory />} />
           <Route path="AdminDashboard/create-product" element={<CreateProduct />} />
           <Route path="AdminDashboard/Users" element={<Users />} />
+        
         </Route>
 
 
@@ -49,8 +54,11 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPasssword />} />
+        <Route path="/reset-password/:token" element={<PasswordReset />} />
+
         <Route path="/*" element={<PageNotFound />} />
         <Route path="/RegLog" element={<RegLog />} />
+        
 
       </Routes>
     </>
