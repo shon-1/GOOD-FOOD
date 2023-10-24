@@ -47,8 +47,17 @@ const Register = () => {
       toast.error("Phone number should contain only numbers.");
       return false;
     }
+  
+    // Check if the phone number contains only zeros
+    if (/^0+$/.test(value)) {
+      toast.dismiss();
+      toast.error("Phone number cannot contain all zeros.");
+      return false;
+    }
+    
     return true;
   };
+  
 
   const handlePasswordStrength = (value) => {
     // Check password strength (at least one letter and one number)

@@ -1,5 +1,7 @@
 import express  from "express";
-import { forgotPasswordController, registerContoller } from '../controllers/authContoller.js';
+import { registerContoller } from '../controllers/authContoller.js';
+import { forgotPasswordController } from "../controllers/authContoller.js";
+import { resetPasswordController } from "../controllers/authContoller.js";
 import { updateProfileController } from "../controllers/authContoller.js";
 import { loginController } from "../controllers/authContoller.js";
 import { testController } from "../controllers/authContoller.js";
@@ -20,6 +22,12 @@ router.post('/login',loginController)
 //Forgot Password || POST
 //router.post("/forgot-password", forgotPasswordController);
 
+// Forgot Password || POST
+router.post('/forgot-password', forgotPasswordController);
+
+// POST route for resetting password
+router.post("/reset-password", resetPasswordController);
+
 
 //test Route
 router.get('/test',requireSignIn,isAdmin,testController)
@@ -37,8 +45,7 @@ router.get("/admin-auth",requireSignIn,isAdmin,(req,res) => {
 //update profile
 router.put("/profile", requireSignIn, updateProfileController);
 
-// Forgot Password || POST
-router.post("/forgot-password", forgotPasswordController);
+
 
 
 export default router;

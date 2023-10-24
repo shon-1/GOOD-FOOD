@@ -1,0 +1,49 @@
+
+
+-------------------------------------------------------------------------------------------------Forgot password
+
+export const forgotPasswordController1 = async (req, res) => {
+    try {
+        const { email, answer, newPassword } = req.body;
+        if (!email) {
+            res.status(400).send({ message: "Emai is required" });
+        }
+        if (!answer) {
+            res.status(400).send({ message: "answer is required" });
+        }
+        if (!newPassword) {
+            res.status(400).send({ message: "New Password is required" });
+        }
+        //check
+        const user = await userModel.findOne({ email, answer });
+        //validation
+        if (!user) {
+            return res.status(404).send({
+                success: false,
+                message: "Wrong Email Or Answer",
+            });
+        }
+        const hashed = await hashPassword(newPassword);
+        await userModel.findByIdAndUpdate(user._id, { password: hashed });
+        res.status(200).send({
+            success: true,
+            message: "Password Reset Successfully",
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: "Something went wrong",
+            error,
+        });
+    }
+};
+
+-------------------------------------------------------------------------------------------------
+
+
+
+
+http://localhost:3000/reset-password/
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTFmNDZiMjA2ZDdmY2VkMWFkNGY3YTgiLCJpYXQiOjE2OTY1NTE4OTIsImV4cCI6MTY5NjU1NTQ5Mn0.4UEdgwA1WFhPfPU5SypWaoi4AObd6S4URChesc3ZQlo

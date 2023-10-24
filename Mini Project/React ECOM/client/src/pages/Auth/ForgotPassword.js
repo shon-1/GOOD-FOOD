@@ -1,51 +1,53 @@
-import React from 'react'
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from 'axios'
+import React, { useState } from "react";
+import Layout from '../../components/layout/Layout';
+import axios from "axios";
+import toast from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 
+const ForgotPassword = () => {
+  const [email, setEmail] = useState("");
 
-function ForgotPassword() {
-    const [email, setEmail] = useState()
-    const navigate = useNavigate()
-
-    axios.defaults.withCredentials = true;
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        axios.post('http://localhost:8080/api/v1/auth/login/forgot-password', {email})
-        .then(res => {
-            if(res.data.Status === "Success") {
-                navigate('/login')
-               
-            }
-        }).catch(err => console.log(err))
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post("http://localhost:8080/api/v1/auth/forgot-password", {
+        email,
+      });
+      if (res && res.data.success) {
+        toast.success(res.data.message);
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong");
     }
+  };
 
-    return(
-        <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
-      <div className="bg-white p-3 rounded w-25">
-        <h4>Forgot Password</h4>
+  return (
+    <Layout title="Forgot Password - Ecommerce App">
+      <div className="form-container" style={{ minHeight: "90vh" }}>
         <form onSubmit={handleSubmit}>
+          <h4 className="title">Forgot Password</h4>
           <div className="mb-3">
-            <label htmlFor="email">
-              <strong>Email</strong>
-            </label>
             <input
               type="email"
-              placeholder="Enter Email"
-              autoComplete="off"
-              name="email"
-              className="form-control rounded-0"
+              autoFocus
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
+              className="form-control"
+              placeholder="Enter Your Email"
+              required
             />
           </div>
-          <button type="submit" className="btn btn-success w-100 rounded-0">
-            Send
+          <button type="submit" className="btn btn-primary">
+            Reset Password
           </button>
-          </form>
-        
+        </form>
       </div>
-    </div>
-    )
-}
+      <Toaster />
+    </Layout>
+  );
+};
 
 export default ForgotPassword;
