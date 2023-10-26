@@ -5,6 +5,7 @@ import morgan from 'morgan'
 import connectDB from './config/db.js';
 import authRoutes from './routes/authRoute.js';
 import categoryRoutes from './routes/categoryRoute.js';
+import productRoutes from './routes/productRoute.js'
 import cors from 'cors';
 
 //config env
@@ -26,6 +27,8 @@ app.use(cors()); // Add this line to enable CORS --gpt
 app.use("/api/v1/auth",authRoutes);
 
 app.use("/api/v1/auth",categoryRoutes);
+
+app.use("/api/v1/auth",productRoutes);
 
 //rest api
 app.get('/', (req,res)=>{
