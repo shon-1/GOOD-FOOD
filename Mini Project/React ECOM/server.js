@@ -26,9 +26,9 @@ app.use(cors()); // Add this line to enable CORS --gpt
 //routes
 app.use("/api/v1/auth",authRoutes);
 
-app.use("/api/v1/auth",categoryRoutes);
+app.use("/api/v1/category",categoryRoutes);
 
-app.use("/api/v1/auth",productRoutes);
+app.use("/api/v1/product",productRoutes);
 
 //rest api
 app.get('/', (req,res)=>{
