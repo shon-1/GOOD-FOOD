@@ -1,12 +1,171 @@
-import React,  { useState, useEffect }from 'react'
-import AdminMenu from '../../components/layout/AdminMenu'
-import Layout from '../../components/layout/Layout'
-
+import React, { useState, useEffect } from 'react';
+import Layout from '../../components/layout/Layout';
+import AdminMenu from '../../components/layout/AdminMenu';
 import toast from "react-hot-toast";
 import axios from "axios";
-import { Select } from "antd";
+import { Select, Tooltip } from "antd";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+
 const { Option } = Select;
+
+const Container = styled.div`
+  padding: 3rem;
+  background-color: #f0f0f0;
+`;
+
+const DashboardRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+const Sidebar = styled.div`
+  flex: 0 0 25%;
+`;
+
+const MainContent = styled.div`
+  flex: 0 0 75%;
+`;
+
+const Heading = styled.h1`
+  font-size: 24px;
+`;
+
+const FormContainer = styled.div`
+  width: 75%;
+`;
+
+
+const SelectOption = styled(Select)`
+  border: none;
+  width: 33%;
+  margin-bottom: 1rem;
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+  `;
+
+const SelectCategory = styled(Select)`
+  border: none;
+  width: 50%;
+  margin-bottom: 1rem;
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+
+  & .ant-select-selector {
+    border: 2px solid #ccc;
+    border-radius: 5px;
+  }
+
+  & .ant-select-selection-item {
+    background-color: #f0f0f0;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+      background-color: #e6fff2; /* Change to your desired color on hover */
+      color: Black;
+    }
+  }
+`;
+
+
+
+const UploadLabel = styled.label`
+  display: block;
+  width: 50%;
+  text-align: center;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+
+  &:hover {
+    background-color: #007bff; /* Change to your desired color on hover */
+    border-color: #007bff;
+    color: white;
+  }
+`;
+const UploadInput = styled.input`
+  display: none;
+`;
+
+const PreviewImage = styled.img`
+  height: 200px;
+`;
+
+const TextInput = styled.input`
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 7px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+`;
+
+const TextareaInput = styled.textarea`
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 7px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+`;
+
+const NumberInput = styled.input`
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 7px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+`;
+
+const StyledTooltip = styled(Tooltip)`
+  background-color: rgba(255, 255, 255, 0.9); /* Tooltip background color with transparency */
+  border: 1px solid #ccc; /* Tooltip border */
+  color: #333; /* Tooltip text color */
+  max-width: 300px; /* Maximum width for the tooltip */
+  padding: 12px; /* Padding for tooltip content */
+`;
+
+const StyledSelect = styled(Select)`
+  .ant-select-selection-placeholder {
+    color: #999; /* Placeholder text color */
+  }
+
+  .ant-select-selector {
+    border: 1px solid #ccc; /* Select component border */
+    border-radius: 4px; /* Rounded corners for the Select component */
+    background-color: #fff; /* Select component background color */
+  }
+
+  .ant-select-dropdown {
+    border: 1px solid #ccc; /* Dropdown menu border */
+  }
+
+  .ant-select-item-option {
+    padding: 8px; /* Padding for each dropdown option */
+  }
+
+  .ant-select-item-option:hover {
+    background-color: #f0f0f0; /* Background color on hover */
+  }
+
+  .ant-select-item-option-active {
+    background-color: #e6e6e6; /* Background color when selected */
+  }
+
+  .ant-select-dropdown-menu {
+    max-height: 200px; /* Maximum height of the dropdown menu */
+    overflow-y: auto; /* Add a scrollbar when needed */
+  }
+`;
+
+const SubmitButton = styled.button`
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 7px 14px;
+  font-size: 16px;
+  cursor: pointer;
+`;
 
 const CreateProduct = () => {
   const navigate = useNavigate();
@@ -16,8 +175,11 @@ const CreateProduct = () => {
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [shipping, setShipping] = useState("");
-  const [photo, setPhoto] = useState("");
+  const [foodType, setFoodType] = useState("");
+  const [photo, setPhoto] = useState(null);
+  const [flavor, setFlavor] = useState("");
+  const [orgin, setOrgin] = useState("");
+  const [color, setColor] = useState("");
 
   //get all category
   const getAllCategory = async () => {
@@ -28,7 +190,7 @@ const CreateProduct = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error("Something wwent wrong in getting catgeory");
+      toast.error("Something went wrong in getting catgeory");
     }
   };
 
@@ -47,15 +209,19 @@ const CreateProduct = () => {
       productData.append("quantity", quantity);
       productData.append("photo", photo);
       productData.append("category", category);
-      const { data } = await axios.post(
-        "http://localhost:8080/api/v1/product/create-product",
-        productData
-      );
+      productData.append("foodType", foodType);
+      productData.append("flavor", flavor);
+      productData.append("orgin", orgin);
+      productData.append("color", color);
+
+      const { data } = await axios.post("http://localhost:8080/api/v1/product/create-product", productData);
+
+
       if (data?.success) {
         toast.success("Product Created Successfully");
-        navigate("/dashboard/AdminDashboard/products");
+        navigate("/dashboard/products");
       } else {
-        
+
         toast.error(data?.message);
       }
     } catch (error) {
@@ -66,115 +232,163 @@ const CreateProduct = () => {
 
   return (
     <Layout title={"Dashboard - Create Product"}>
-      <div className="container-fluid m-3 p-3 dashboard">
-        <div className="row">
-          <div className="col-md-3">
+      <Container>
+        <DashboardRow>
+          <Sidebar>
             <AdminMenu />
-          </div>
-          <div className="col-md-9">
-            <h1>Create Product</h1>
-            <div className="m-1 w-75">
-              <Select
-                bordered={false}
-                placeholder="Select a category"
-                size="large"
-                showSearch
-                className="form-select mb-3"
-                onChange={(value) => {
-                  setCategory(value);
-                }}
-              >
-                {categories?.map((c) => (
-                  <Option key={c._id} value={c._id}>
-                    {c.name}
-                  </Option>
-                ))}
-              </Select>
-              <div className="mb-3">
-                <label className="btn btn-outline-secondary col-md-12">
-                  {photo ? photo.name : "Upload Photo"}
-                  <input
-                    type="file"
-                    name="photo"
-                    accept="image/*"
-                    onChange={(e) => setPhoto(e.target.files[0])}
-                    hidden
-                  />
-                </label>
-              </div>
-              <div className="mb-3">
-                {photo && (
-                  <div className="text-center">
-                    <img
-                      src={URL.createObjectURL(photo)}
-                      alt="product_photo"
-                      height={"200px"}
-                      className="img img-responsive"
-                    />
-                  </div>
-                )}
-              </div>
-              <div className="mb-3">
-                <input
-                  type="text"
-                  value={name}
-                  placeholder="write a name"
-                  className="form-control"
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </div>
-              <div className="mb-3">
-                <textarea
-                  type="text"
-                  value={description}
-                  placeholder="write a description"
-                  className="form-control"
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </div>
+          </Sidebar>
+          <MainContent>
+            <Heading>Add Item</Heading>
+            <FormContainer>
 
               <div className="mb-3">
-                <input
-                  type="number"
-                  value={price}
-                  placeholder="write a Price"
-                  className="form-control"
-                  onChange={(e) => setPrice(e.target.value)}
-                />
+                <div className="mb-3" style={{ display: 'flex', justifyContent: 'center' }}>
+                  <UploadLabel>
+                    {photo ? photo.name : "Upload Photo"}
+                    <UploadInput
+                      type="file"
+                      name="photo"
+                      accept="image/*"
+                      onChange={(e) => setPhoto(e.target.files[0])}
+                    />
+                  </UploadLabel>
+
+                </div>
               </div>
-              <div className="mb-3">
-                <input
-                  type="number"
-                  value={quantity}
-                  placeholder="write a quantity"
-                  className="form-control"
-                  onChange={(e) => setQuantity(e.target.value)}
-                />
+              <div className="text-center">
+                {photo && <PreviewImage src={URL.createObjectURL(photo)} alt="product_photo" />}
               </div>
-              <div className="mb-3">
-                <Select
+              <TextInput
+                type="text"
+                value={name}
+                placeholder="Write a name"
+                onChange={(e) => setName(e.target.value)}
+              />
+              <TextareaInput
+                type="text"
+                value={description}
+                placeholder="Write a description"
+                onChange={(e) => setDescription(e.target.value)}
+              />
+              <Tooltip title="Categories help customers easily navigate and find items on your menu">
+                <SelectCategory
                   bordered={false}
-                  placeholder="Select Shipping "
+                  placeholder="Select a category"
                   size="large"
                   showSearch
-                  className="form-select mb-3"
                   onChange={(value) => {
-                    setShipping(value);
+                    setCategory(value);
                   }}
                 >
-                  <Option value="0">No</Option>
-                  <Option value="1">Yes</Option>
-                </Select>
-              </div>
+                  {categories?.map((c) => (
+                    <Option key={c._id} value={c._id}>
+                      {c.name}
+                    </Option>
+                  ))}
+                </SelectCategory>
+              </Tooltip>
+
+              <Tooltip title="This helps customers understand the nature of the dish ">
+                <SelectCategory
+                  bordered={false}
+                  placeholder="Food Type"
+                  size="large"
+                  showSearch
+                  onChange={(value) => {
+                    setFoodType(value);
+                  }}
+                >
+                  <Option value="veg">Veg</Option>
+                  <Option value="NonVeg">Non-Veg</Option>
+                  <Option value="Drinks">Drinks</Option>
+                </SelectCategory>
+              </Tooltip>
+              <Tooltip title="Indicate the place of origin for this food item ">
+              <SelectOption
+                bordered={false}
+                placeholder="Select Origin"
+                size="large"
+                showSearch
+                onChange={(value) => {
+                  setOrgin(value);
+                }}
+              >
+                <Option value="Mexican">Mexican</Option>
+                <Option value="Italian">Italian</Option>
+                <Option value="Chinese">Chinese</Option>
+                <Option value="Indian">Indian</Option>
+                <Option value="Japanese">Japanese</Option>
+
+                {/* Add more options as needed */}
+              </SelectOption>
+              </Tooltip>
+
+
+              <Tooltip title="This helps customers understand the flavor of the dish">
+                <SelectOption
+                  bordered={false}
+                  placeholder="Flavor"
+                  size="large"
+                  showSearch
+                  onChange={(value) => {
+                    setFlavor(value);
+                  }}
+                >
+                  <Option value="sweet">Sweet</Option>
+                  <Option value="sour">Sour</Option>
+                  <Option value="spicy">Spicy</Option>
+                  <Option value="salty">Salty</Option>
+                  <Option value="bitter">Bitter</Option>
+                  <Option value="umami">Umami</Option>
+                  <Option value="savory">Savory</Option>
+                  {/* Add more flavor options as needed */}
+                </SelectOption>
+              </Tooltip>
+
+
+              <Tooltip title="This helps customers understand the color of the dish">
+                <SelectOption
+                  bordered={false}
+                  placeholder="Color"
+                  size="large"
+                  showSearch
+                  onChange={(value) => {
+                    setColor(value);
+                  }}
+                >
+                  <Option value="red">Red</Option>
+                  <Option value="green">Green</Option>
+                  <Option value="yellow">Yellow</Option>
+                  <Option value="orange">Orange</Option>
+                  <Option value="purple">Purple</Option>
+                  <Option value="blue">Blue</Option>
+                  <Option value="brown">Brown</Option>
+                  {/* Add more color options as needed */}
+                </SelectOption>
+              </Tooltip>
+
+
+
+              <NumberInput
+                type="number"
+                value={price}
+                placeholder="Write a Price"
+                onChange={(e) => setPrice(e.target.value)}
+              />
+              {/*<NumberInput
+                type="number"
+                value={quantity}
+                placeholder="Write a quantity"
+                onChange={(e) => setQuantity(e.target.value)}
+              />*/}
+
               <div className="mb-3">
-                <button className="btn btn-primary" onClick={handleCreate}>
-                  CREATE PRODUCT
-                </button>
+                <SubmitButton onClick={handleCreate}>Add Item</SubmitButton>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
+            </FormContainer>
+          </MainContent>
+        </DashboardRow>
+      </Container>
     </Layout>
   );
 };

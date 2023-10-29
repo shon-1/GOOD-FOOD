@@ -25,14 +25,23 @@ const productSchema = new mongoose.Schema(
     },
     quantity: {
       type: Number,
-      required: true,
+      //required: false,
     },
     photo: {
       data: Buffer,
       contentType: String,
     },
-    shipping: {
-      type: Boolean,
+    foodType: {
+      type: String,
+    },
+    flavor: {
+      type: String,
+    },
+    color: {
+      type: String,
+    },
+    orgin: {
+      type: String,
     },
   },
   { timestamps: true }

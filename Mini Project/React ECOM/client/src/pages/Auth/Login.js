@@ -10,6 +10,7 @@ import { useAuth } from "../../context/auth";
 import { NavLink } from "react-router-dom";
 
 const Login = () => {
+  console.log("Login component rendered"); 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [auth, setAuth] = useAuth();
@@ -25,6 +26,9 @@ const Login = () => {
         email,
         password,
       });
+
+      console.log("API Response:", res.data); // Add this line
+
       if (res && res.data.success) {
         toast.success(res.data && res.data.message);
         setAuth({
@@ -33,9 +37,18 @@ const Login = () => {
           token: res.data.token,
         });
         localStorage.setItem("auth", JSON.stringify(res.data));
-    
+
+        console.log("User Role:", res.data.user.role); // Add this line
+
         setTimeout(() => {
-          navigate(location.state || "/");
+         
+          if (res.data.user.role === "1") {
+            console.log("Before navigating to Admin Dashboard");
+            navigate(location.state || "/Dashboard/AdminDashboard");
+          } else {
+            navigate(location.state || "/");
+          }
+          
         }, 100); 
        
         

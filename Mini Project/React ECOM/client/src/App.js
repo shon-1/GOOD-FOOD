@@ -28,7 +28,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+      <Route path="/" element={<HomePage />} />
 
         <Route path="/Dashboard" element={<PrivateRoute />}>
           
@@ -42,10 +42,10 @@ function App() {
           <Route path="/Dashboard" element={<Dashboard />} />          
         
           <Route path="AdminDashboard" element={<AdminDashboard />} />
-          <Route path="AdminDashboard/create-category" element={<CreateCategory />} />
-          <Route path="AdminDashboard/create-product" element={<CreateProduct />} />
-          <Route path="AdminDashboard/Users" element={<Users />} />
-          <Route path="AdminDashboard/Products" element={<Products/>}/>
+          <Route path="create-category" element={<CreateCategory />} />
+          <Route path="create-product" element={<CreateProduct />} />
+          <Route path="Users" element={<Users />} />
+          <Route path="Products" element={<Products/>}/>
         
         </Route>
 

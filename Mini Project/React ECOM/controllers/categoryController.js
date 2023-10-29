@@ -1,5 +1,7 @@
 import categoryModel from "../models/categoryModel.js";
 import slugify from "slugify";
+
+
 export const createCategoryController = async (req, res) => {
   try {
     const { name } = req.body;
@@ -15,6 +17,7 @@ export const createCategoryController = async (req, res) => {
     }
     const category = await new categoryModel({
       name,
+      type:"veg",
       slug: slugify(name),
     }).save();
     res.status(201).send({

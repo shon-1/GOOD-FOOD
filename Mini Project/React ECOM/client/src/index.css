@@ -18,7 +18,7 @@ font-family: 'Poppins', sans-serif;
   text-transform: uppercase;
   box-shadow: 0px 8px 6px -6px rgb(12, 226, 58);
   border-bottom: solid rgb(14, 114, 38) !important;
-  border-radius: 500px; /* Add rounded corners */
+  border-radius: 50px; /* Add rounded corners */
   /*overflow: hidden; /* Ensure rounded corners are visible */
   /*transition: all 0.3s ease; /* Add smooth transition */
 }
@@ -37,9 +37,14 @@ font-family: 'Poppins', sans-serif;
 
 /* Style the active NavLink */
 .active {
-  border-bottom: 80px solid blue;
+  border-bottom: 4px solid rgb(229, 23, 143);
   background-color: transparent; /* Remove background color for active NavLink */
+  font-weight: bold; /* Make the text bold */
+  color: rgb(22, 215, 212); /* Change the text color */
+  text-decoration: none; /* Remove underline */
+  border-radius: 15px; /* Add rounded corners (adjust the value as needed) */
 }
+
 
 /* Navbar brand styles */
 .navbar-brand {
@@ -66,8 +71,8 @@ font-family: 'Poppins', sans-serif;
 
 /* Style the Navbar Toggle button */
 .navbar-toggler-icon {
-  background-color: #ce3a3a; /* Toggle button background color */
-  border-radius: 5px; /* Add rounded corners */
+  background-color: #c1ebc1; /* Toggle button background color */
+  border-radius: 1px; /* Add rounded corners */
 }
 
 /* Change color of Navbar Toggle icon */
