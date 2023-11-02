@@ -22,6 +22,7 @@ import Profile from "./pages/user/Profile";
 import PasswordReset from "./pages/Auth/PasswordReset";
 import Cart from "./pages/Cart";
 import Products from "./pages/Admin/Products";
+import UpdateProduct from "./pages/Admin/UpdateProduct";
 
 // Routes like container
 function App() {
@@ -44,6 +45,7 @@ function App() {
           <Route path="AdminDashboard" element={<AdminDashboard />} />
           <Route path="create-category" element={<CreateCategory />} />
           <Route path="create-product" element={<CreateProduct />} />
+          <Route path="admin/product/:slug" element={<UpdateProduct />} />
           <Route path="Users" element={<Users />} />
           <Route path="Products" element={<Products/>}/>
         
