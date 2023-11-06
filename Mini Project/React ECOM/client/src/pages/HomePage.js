@@ -2,16 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Checkbox, Radio } from "antd";
 import { Prices } from "../components/Prices";
-//import { useCart } from "../context/cart";
+import { useCart } from "../context/cart";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Layout from "./../components/layout/Layout";
 import { AiOutlineReload } from "react-icons/ai";
 import "../styles/Homepage.css";
+import Search from "./Search";
+import SearchInput from "../components/Form/Searchinput";
 
 const HomePage = () => {
   const navigate = useNavigate();
-  //const [cart, setCart] = useCart();
+  const [cart, setCart] = useCart();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [checked, setChecked] = useState([]);
@@ -109,13 +111,25 @@ const HomePage = () => {
   return (
     <Layout title={"ALl Products - Best offers "}>
       {/* banner image */}
-      <img
-        src="/images/banner.png"
-        className="banner-img"
-        alt="bannerimage"
-        width={"100%"}
-      />
-      {/* banner image */}
+      <div class="image-container2">
+        <img
+          src="https://source.unsplash.com/random/900x200/?burger"
+          className="d-block h-100 w-50"
+          alt="Burger"
+        />
+        <img
+          src="https://source.unsplash.com/random/900x200/?food"
+          className="d-block h-100 w-50"
+          alt="pizza"
+        />
+      </div>
+
+
+
+      {/* banner image 
+      <div className="center-search-input">
+        <SearchInput />
+      </div>*/}
       <div className="container-fluid row mt-3 home-page">
         <div className="col-md-3 filters">
           <h4 className="text-center">Filter By Category</h4>
@@ -150,7 +164,7 @@ const HomePage = () => {
           </div>
         </div>
         <div className="col-md-9 ">
-          <h1 className="text-center">All Products</h1>
+          <h1 className="text-center"></h1>
           <div className="d-flex flex-wrap">
             {products?.map((p) => (
               <div className="card m-2" key={p._id}>
@@ -163,11 +177,12 @@ const HomePage = () => {
                   <div className="card-name-price">
                     <h5 className="card-title">{p.name}</h5>
                     <h5 className="card-title card-price">
-                      {p.price.toLocaleString("en-US", {
+                      {p.price.toLocaleString("en-IN", {
                         style: "currency",
-                        currency: "USD",
+                        currency: "INR",
                       })}
                     </h5>
+
                   </div>
                   <p className="card-text ">
                     {p.description.substring(0, 60)}...
@@ -180,15 +195,15 @@ const HomePage = () => {
                       More Details
                     </button>
                     <button
-             /*         className="btn btn-dark ms-1"
+                      className="btn btn-dark ms-1"
                       onClick={() => {
-                        setCart([...cart, p]);
-                        localStorage.setItem(
+                          setCart([...cart, p]);
+                          localStorage.setItem(
                           "cart",
-                          JSON.stringify([...cart, p])
+                         JSON.stringify([...cart, p])
                         );
                         toast.success("Item Added to cart");
-                      }}*/
+                      }}
                     >
                       ADD TO CART
                     </button>

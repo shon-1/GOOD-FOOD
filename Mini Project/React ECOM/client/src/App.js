@@ -20,9 +20,12 @@ import CreateProduct from "./pages/Admin/CreateProduct";
 import Orders from "./pages/user/Orders";
 import Profile from "./pages/user/Profile";
 import PasswordReset from "./pages/Auth/PasswordReset";
-import Cart from "./pages/Cart";
+import Cart from "./pages/CartPage";
 import Products from "./pages/Admin/Products";
 import UpdateProduct from "./pages/Admin/UpdateProduct";
+import Search from "./pages/Search";
+import ProductDetails from "./pages/ProductDetails";
+import CartPage from "./pages/CartPage";
 
 // Routes like container
 function App() {
@@ -30,7 +33,9 @@ function App() {
     <>
       <Routes>
       <Route path="/" element={<HomePage />} />
-
+      <Route path="/search/:slug" element={<ProductDetails/>}/>
+        <Route path="/search" element={<Search/>}/>
+        <Route path="/cart" element={<CartPage/>}/>
         <Route path="/Dashboard" element={<PrivateRoute />}>
           
           <Route path="/Dashboard" element={<Dashboard />} />

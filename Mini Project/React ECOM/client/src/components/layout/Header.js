@@ -4,11 +4,14 @@ import { GrRestaurant } from 'react-icons/gr';
 import { AiFillHome } from 'react-icons/ai';
 import { BiSolidLogIn } from 'react-icons/bi';
 import { useAuth } from "../../context/auth";
-import { Link } from "react-router-dom";
+import { NavLink,Link } from "react-router-dom";
+import { useCart } from "../../context/cart";
+import SearchInput from "../Form/Searchinput";
+import { Badge } from 'antd'
 
 const Header = () => {
   const [auth, setAuth] = useAuth();
-
+  const [cart] = useCart();
   const handleLogout = () => {
     localStorage.removeItem('auth');
     setAuth({
@@ -26,6 +29,7 @@ const Header = () => {
           <Link to="/" className="navbar-brand">
             <GrRestaurant /> Dream-Dish
           </Link>
+          <SearchInput />
           <Nav className="ms-auto mb-2 mb-lg-0">
             <Nav.Link as={Link} to="/">
               <AiFillHome /> Home
@@ -44,18 +48,22 @@ const Header = () => {
               </>
             ) : (
               <NavDropdown title={auth?.user?.name} id="basic-nav-dropdown">
-              
-    <NavDropdown.Item as={Link} to={`/Dashboard/${auth?.user?.role === '1' ? "AdminDashboard" : "UserDashboard"}`}>
-      Dashboard
-    </NavDropdown.Item>
-    <NavDropdown.Item onClick={handleLogout} as={Link} to="/login">
-    <BiSolidLogIn /> Logout
-    </NavDropdown.Item>
-  </NavDropdown>
+
+                <NavDropdown.Item as={Link} to={`/Dashboard/${auth?.user?.role === '1' ? "AdminDashboard" : "UserDashboard"}`}>
+                  Dashboard
+                </NavDropdown.Item>
+                <NavDropdown.Item onClick={handleLogout} as={Link} to="/login">
+                  <BiSolidLogIn /> Logout
+                </NavDropdown.Item>
+              </NavDropdown>
             )}
-            <Nav.Link as={Link} to="/Dashboard">
-              Cart (0)
-            </Nav.Link>
+            <li className="nav-item">
+                <NavLink to="/cart" className="nav-link">
+                  <Badge count={cart?.length} showZero offset={[10, -5]}>
+                    Cart
+                  </Badge>
+                </NavLink>
+              </li>
           </Nav>
         </Navbar.Collapse>
       </div>
