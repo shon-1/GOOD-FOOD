@@ -7,6 +7,7 @@ import DropIn from "braintree-web-drop-in-react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import "../styles/CartStyles.css";
+import { Spinner } from "react-bootstrap";
 
 const CartPage = () => {
   const [auth, setAuth] = useAuth();
@@ -61,6 +62,8 @@ const CartPage = () => {
   //handle payments
   const handlePayment = async () => {
     try {
+      
+      toast.success("Payment Completed Successfully ");
       setLoading(true);
       const { nonce } = await instance.requestPaymentMethod();
       const { data } = await axios.post("http://localhost:8080/api/v1/product/braintree/payment", {
@@ -99,7 +102,7 @@ const CartPage = () => {
         </div>
        
           <div className="row">
-            <div className="col-md-7 p-0 m-0">
+            <div className="col-md-5 p-4 m-4">
               {cart?.map((p) => (
                 <div className="row card flex-row" key={p._id}>
                   <div className="col-md-4">
@@ -139,7 +142,7 @@ const CartPage = () => {
                     <h5>{auth?.user?.address}</h5>
                     <button
                       className="btn btn-outline-warning"
-                      onClick={() => navigate("/dashboard/user/profile")}
+                      onClick={() => navigate("/Dashboard/UserDashboard/Profile")}
                     >
                       Update Address
                     </button>
@@ -169,7 +172,7 @@ const CartPage = () => {
                 </div>
               )}
               <div className="mt-2">
-                {!clientToken || !auth?.token || !cart?.length ? (
+                {!auth?.token || !cart?.length ? (
                   ""
                 ) : (
                   <>
@@ -186,7 +189,7 @@ const CartPage = () => {
                     <button
                       className="btn btn-primary"
                       onClick={handlePayment}
-                      disabled={loading || !instance || !auth?.user?.address}
+                      //disabled={loading || !instance || !auth?.user?.address}
                     >
                       {loading ? "Processing ...." : "Make Payment"}
                     </button>

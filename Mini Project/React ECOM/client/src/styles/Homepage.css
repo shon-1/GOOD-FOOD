@@ -3,6 +3,7 @@
   }
 
   .image-container2 {
+    position: absolute;
     display: flex; /* Use flexbox to arrange the images side by side */
     justify-content: space-between; /* Adjust the space between the images */
     align-items: center; /* Center vertically if needed */
@@ -16,6 +17,7 @@
   
   .home-page {
     display: flex;
+    justify-content: flex-end;
     flex-wrap: wrap;
   }
   .home-page .card {
@@ -48,7 +50,7 @@
   }
   
   .home-page .card img:hover {
-    transform: scale(0.9);
+    transform: scale(1.1);
   }
   
   .home-page .card-img-top {
@@ -57,8 +59,16 @@
   /* ==================
   filters
   ============== */
+
+  .filters {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
   .filters h4 {
-    margin-top: 100px;
+    margin-top: 10px;
     color: gray !important;
     border-bottom: 1px solid rgba(128, 128, 128, 0.337);
   }
@@ -68,7 +78,7 @@
   }
   
   .ant-checkbox-wrapper {
-    margin: 2px;
+    margin: 4px;
   }
   .ant-radio-wrapper {
     margin-bottom: 5px !important;
@@ -88,3 +98,23 @@
     font-weight: bold;
     font-size: 20px !important;
   }
+
+  
+  .col-md-10 {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+/* CSS for positioning the search input */
+.search-container {
+  display: flex;
+  position: sticky;
+ 
+  background-color: rgba(244, 239, 239, 0.758); /* Background color for the search input container */
+  padding: 8px;
+  /*border: 1px solid #ccc; /* Add a border for the search input container */
+  border-radius: 20px; /* Add rounded corners to the container */
+  margin-top: -15px; /* Adjust the value to control the vertical placement */
+  margin-left: 30%; /* Adjust the value to move it to the right by a specific length */
+  margin-right: 27.5%;
+}

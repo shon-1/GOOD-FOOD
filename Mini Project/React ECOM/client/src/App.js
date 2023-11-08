@@ -34,10 +34,10 @@ function App() {
       <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/search/:slug" element={<ProductDetails/>}/>
-        <Route path="/search" element={<Search/>}/>
-        <Route path="/cart" element={<CartPage/>}/>
+      <Route path="/search" element={<Search/>}/>
+      <Route path="/cart" element={<CartPage/>}/>
+
         <Route path="/Dashboard" element={<PrivateRoute />}>
-          
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="Userdashboard" element={<Userdashboard />} />
           <Route path="Userdashboard/Orders" element={<Orders />} />
@@ -46,14 +46,12 @@ function App() {
 
         <Route path="/Dashboard" element={<AdminRoute />}>
           <Route path="/Dashboard" element={<Dashboard />} />          
-        
           <Route path="AdminDashboard" element={<AdminDashboard />} />
           <Route path="create-category" element={<CreateCategory />} />
           <Route path="create-product" element={<CreateProduct />} />
           <Route path="admin/product/:slug" element={<UpdateProduct />} />
           <Route path="Users" element={<Users />} />
           <Route path="Products" element={<Products/>}/>
-        
         </Route>
 
 
@@ -64,7 +62,6 @@ function App() {
         <Route path="/Login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPasssword />} />
         <Route path="/reset-password/:token" element={<PasswordReset />} />
-
         <Route path="/*" element={<PageNotFound />} />
         <Route path="/RegLog" element={<RegLog />} />
         

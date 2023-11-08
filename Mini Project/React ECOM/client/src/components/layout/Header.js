@@ -29,7 +29,7 @@ const Header = () => {
           <Link to="/" className="navbar-brand">
             <GrRestaurant /> Dream-Dish
           </Link>
-          <SearchInput />
+         
           <Nav className="ms-auto mb-2 mb-lg-0">
             <Nav.Link as={Link} to="/">
               <AiFillHome /> Home

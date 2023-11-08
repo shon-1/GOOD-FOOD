@@ -86,14 +86,21 @@ const HomePage = () => {
     } else {
       all = all.filter((c) => c !== id);
     }
+    console.log('Updated checked array:', all); 
     setChecked(all);
   };
   useEffect(() => {
+    console.log('useEffect 1 - checked:', checked);
+  console.log('useEffect 1 - radio:', radio);
     if (!checked.length || !radio.length) getAllProducts();
+    console.log('Calling getAllProducts');
   }, [checked.length, radio.length]);
 
   useEffect(() => {
+    console.log('useEffect 2 - checked:', checked);
+  console.log('useEffect 2 - radio:', radio);
     if (checked.length || radio.length) filterProduct();
+    console.log('Calling filterProduct');
   }, [checked, radio]);
 
   //get filterd product
@@ -103,8 +110,10 @@ const HomePage = () => {
         checked,
         radio,
       });
+      console.log('Response from API:', data);
       setProducts(data?.products);
     } catch (error) {
+      console.log('Error in filterProduct:', error);
       console.log(error);
     }
   };
@@ -123,15 +132,27 @@ const HomePage = () => {
           alt="pizza"
         />
       </div>
+      <div className="fake-container">
+    hfdj
+    s
+    saves
 
-
+  </div> <div className="fake-container">
+    hfdj
+    s
+    saves
+    
+  </div>
+      <div className="search-container">
+    <SearchInput />
+  </div>
 
       {/* banner image 
       <div className="center-search-input">
         <SearchInput />
       </div>*/}
-      <div className="container-fluid row mt-3 home-page">
-        <div className="col-md-3 filters">
+      <div className="container-fluid row mt-5 home-page ">
+        <div className="col-md-2 filters">
           <h4 className="text-center">Filter By Category</h4>
           <div className="d-flex flex-column">
             {categories?.map((c) => (
