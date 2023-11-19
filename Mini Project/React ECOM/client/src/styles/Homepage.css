@@ -17,7 +17,8 @@
   
   .home-page {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+   
     flex-wrap: wrap;
   }
   .home-page .card {
@@ -65,10 +66,12 @@
     top: 0;
     height: 100vh;
     overflow-y: auto;
+    margin-left: 0%;
   }
 
   .filters h4 {
     margin-top: 10px;
+    
     color: gray !important;
     border-bottom: 1px solid rgba(128, 128, 128, 0.337);
   }
@@ -111,10 +114,10 @@
   position: sticky;
  
   background-color: rgba(244, 239, 239, 0.758); /* Background color for the search input container */
-  padding: 8px;
+ 
   /*border: 1px solid #ccc; /* Add a border for the search input container */
   border-radius: 20px; /* Add rounded corners to the container */
-  margin-top: -15px; /* Adjust the value to control the vertical placement */
+  margin-top: 50px; /* Adjust the value to control the vertical placement */
   margin-left: 30%; /* Adjust the value to move it to the right by a specific length */
   margin-right: 27.5%;
 }

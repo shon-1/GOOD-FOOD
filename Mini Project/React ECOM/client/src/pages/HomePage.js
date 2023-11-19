@@ -133,18 +133,17 @@ const HomePage = () => {
         />
       </div>
       <div className="fake-container">
-    hfdj
-    s
-    saves
+ LOading.......
 
   </div> <div className="fake-container">
-    hfdj
-    s
-    saves
+ Server Connecting.....! 
     
   </div>
-      <div className="search-container">
+      {/*<div className="search-container">
     <SearchInput />
+  </div>*/}
+  <div className="search-container">
+  <SearchInput />
   </div>
 
       {/* banner image 
