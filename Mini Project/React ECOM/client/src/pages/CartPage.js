@@ -3,19 +3,21 @@ import Layout from "./../components/layout/Layout";
 import { useCart } from "../context/cart";
 import { useAuth } from "../context/auth";
 import { useNavigate } from "react-router-dom";
-import DropIn from "braintree-web-drop-in-react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import "../styles/CartStyles.css";
+import DropIn from "braintree-web-drop-in-react";
 import { Spinner } from "react-bootstrap";
+
+const CircularJSON = require('circular-json');
 
 const CartPage = () => {
   const [auth, setAuth] = useAuth();
   const [cart, setCart] = useCart();
-  const [clientToken, setClientToken] = useState("");
   const [instance, setInstance] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [clientToken, setClientToken] = useState("");
 
   //total price
   const totalPrice = () => {
@@ -45,9 +47,9 @@ const CartPage = () => {
       console.log(error);
     }
   };
-
-  //get payment gateway token
-  const getToken = async () => {
+  //new
+   //get payment gateway token
+   const getToken = async () => {
     try {
       const { data } = await axios.get("http://localhost:8080/api/v1/product/braintree/token");
       setClientToken(data?.clientToken);
@@ -59,11 +61,9 @@ const CartPage = () => {
     getToken();
   }, [auth?.token]);
 
-  //handle payments
+  //handle paymentz
   const handlePayment = async () => {
     try {
-      
-      toast.success("Payment Completed Successfully ");
       setLoading(true);
       const { nonce } = await instance.requestPaymentMethod();
       const { data } = await axios.post("http://localhost:8080/api/v1/product/braintree/payment", {
@@ -81,6 +81,7 @@ const CartPage = () => {
     }
   };
 
+  
   return (
     <Layout>
       <div className="cart-page">
@@ -193,6 +194,7 @@ const CartPage = () => {
                     >
                       {loading ? "Processing ...." : "Make Payment"}
                     </button>
+                   
                   </>
                 )}
               </div>
