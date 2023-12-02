@@ -6,11 +6,14 @@ import connectDB from './config/db.js';
 import authRoutes from './routes/authRoute.js';
 import categoryRoutes from './routes/categoryRoute.js';
 import productRoutes from './routes/productRoute.js'
-
+//import paymentController from './controllers/paymentController.js'
 import cors from 'cors';
 
 
 import Razorpay from './routes/payment.js';
+
+
+//app.post('/razorpay/order', paymentController.createRazorpayOrder);
 
 //config env
 dotenv.config();

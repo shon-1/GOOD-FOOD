@@ -5,24 +5,28 @@ import Razorpay from "razorpay";
 import crypto from "crypto";
 
 
+
 const router = express.Router()
 
 router.post("/orders", async (req, res) => {
-    console.log("order api ");
-    const { totalPrice } = req.body;
-    console.log("Total amount to be paid:", totalPrice);
+    console.log("order api 123 ");
+    
+    const { amount } = req.body;
+    console.log("Total amount to be paid: backend ", amount);
+    //console.log("Total amount to be paid:", totalPrice);
     try {
+        console.log("Creating Razorpay instance");
         const instance = new Razorpay({
             key_id: process.env.KEY_ID,
             key_secret: process.env.KEY_SECRET,
         });
 
         const options = {
-            amount: totalPrice * 100, // amount in smallest currency unit
+            amount: amount * 100, // amount in smallest currency unit
             currency: "INR",
             receipt: "receipt_order_74394",
         };
-
+        console.log("Creating Razorpay order");
         const order = await instance.orders.create(options);
 
         if (!order) {
@@ -53,7 +57,9 @@ router.post("/success", async (req, res) => {
         // Creating our own digest
         const shasum = crypto.createHmac("sha256", secret);
 
-        shasum.update($,{orderCreationId}|$,{razorpayPaymentId});
+        //shasum.update($,{orderCreationId}|$,{razorpayPaymentId});
+        shasum.update(`${orderCreationId}|${razorpayPaymentId}`);
+
 
         const digest = shasum.digest("hex");
 
@@ -79,3 +85,5 @@ router.post("/success", async (req, res) => {
 });
 
 export default router;
+
+
