@@ -14,7 +14,8 @@ const Orders = () => {
     try {
       const { data } = await axios.get("http://localhost:8080/api/v1/auth/orders");
       console.log(data); 
-      setOrders(data);
+      const sortedOrders = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      setOrders(sortedOrders);
     } catch (error) {
       console.log(error);
     }
