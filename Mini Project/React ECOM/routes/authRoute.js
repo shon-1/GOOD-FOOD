@@ -1,5 +1,5 @@
 import express  from "express";
-import { registerContoller } from '../controllers/authContoller.js';
+import { getAllOrdersController, getOrdersController, orderStatusController, registerContoller } from '../controllers/authContoller.js';
 import { forgotPasswordController } from "../controllers/authContoller.js";
 import { resetPasswordController } from "../controllers/authContoller.js";
 import { updateProfileController } from "../controllers/authContoller.js";
@@ -46,6 +46,18 @@ router.get("/admin-auth",requireSignIn,isAdmin,(req,res) => {
 router.put("/profile", requireSignIn, updateProfileController);
 
 
+//orders
+router.get("/orders", requireSignIn, getOrdersController);
 
+//all orders
+router.get("/all-orders", requireSignIn, isAdmin, getAllOrdersController);
+
+// order status update
+router.put(
+  "/order-status/:orderId",
+  requireSignIn,
+  isAdmin,
+  orderStatusController
+);
 
 export default router;

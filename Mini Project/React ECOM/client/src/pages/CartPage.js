@@ -9,6 +9,7 @@ import "../styles/CartStyles.css";
 import DropIn from "braintree-web-drop-in-react";
 //import { Spinner } from "react-bootstrap";
 // eslint-disable-next-line
+
 const CircularJSON = require('circular-json');
 
 const CartPage = () => {
@@ -26,36 +27,63 @@ const CartPage = () => {
   const handleRazorpayPayment = async () => {
     try {
       setRazorpayLoading(true);
-      console.log("Razorpay request payload:", {
-        amount: cart.reduce((total, item) => total + item.price, 0) * 100,
+      console.log("F Razorpay request payload:", {
+        amount: totalPrice() ,
+
+        products: cart.map(item => ({
+          productId: item._id,
+          name: item.name,
+          quantity: item.quantity,
+        })),
+       // payment: {
+          // Add payment details if needed
+       // },
+        buyer: {
+          userId: auth?.user?._id,  
+          // Add other buyer details as needed
+        },
       });
       const response = await axios.post("http://localhost:8080/api/v1/payment/orders", {
-        amount: cart.reduce((total, item) => total + item.price, 0) * 100, // Convert to paise
+        amount: cart.reduce((total, item) => total + item.price * item.quantity, 0),
+
+        products: cart.map(item => ({
+          productId: item._id,
+          name: item.name,
+          quantity: item.quantity,
+          // Add other product details as needed
+        })),
+     
+        buyer: {
+          userId: auth?.user?._id,  
+          // Add other buyer details as needed
+        },
+      
+       
       });
-      console.log("Razorpay response:", response);
+      console.log(" F Razorpay response:", response);
 
 
       const options = {
-        key: "rzp_test_vwFYRANZsk49Qu",
+        key: "rzp_test_wH5PplUikspRy6",
         amount: response.data.amount,
         currency: "INR",
-        name: "Your Company Name",
-        description: "Payment for products",
+        name: "Dream Dish",
+        description: "Payment for Food Items",
         order_id: response.data.id,
         handler: (response) => {
           // Handle the successful payment response
-          console.log(response);
+          console.log("F Payment Response",response);
           toast.success("Payment Completed Successfully ");
           localStorage.removeItem("cart");
           setCart([]);
-          navigate("/dashboard/user/orders");
+          navigate("/Dashboard/UserDashboard/Orders");
         },
         prefill: {
           name: auth?.user?.name || "",
           email: auth?.user?.email || "",
         },
         theme: {
-          color: "#F37255",
+          color: "#F38255",
         },
         modal: {
           ondismiss: () => {
@@ -77,8 +105,9 @@ const CartPage = () => {
     try {
       let total = 0;
       // eslint-disable-next-line
-      cart?.map((item) => {
-        total = total + item.price;
+    
+      cart?.forEach((item) => {
+        total += item.price * item.quantity;
       });
       return total.toLocaleString("en-IN", {
         style: "currency",
@@ -140,6 +169,18 @@ const CartPage = () => {
     }
   };
 
+  const updateQuantity = (pid, newQuantity) => {
+    try {
+      let updatedCart = cart.map((item) =>
+        item._id === pid ? { ...item, quantity: newQuantity } : item
+      );
+      setCart(updatedCart);
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 
   return (
     <Layout>
@@ -178,6 +219,28 @@ const CartPage = () => {
                   <p>{p.name}</p>
                   <p>{p.description.substring(0, 30)}</p>
                   <p>Price : {p.price}</p>
+                  <p>
+                  <div className="quantity-controls">
+                  <span className="quantity-label">Quantity:</span>
+    <button
+      style={{ fontSize: '0.8rem', padding: '0.2rem 0.5rem' }}
+      className="quantity-btn"
+      onClick={() => updateQuantity(p._id, p.quantity - 1)}
+      disabled={p.quantity <= 1}
+    >
+      -
+    </button>
+    <span className="quantity">{p.quantity}</span>
+    <button
+      style={{ fontSize: '0.8rem', padding: '0.2rem 0.5rem' }}
+      className="quantity-btn"
+      onClick={() => updateQuantity(p._id, p.quantity + 1)}
+      disabled={p.quantity >= 5}
+    >
+      +
+    </button>
+  </div>
+                </p>
                 </div>
                 <div className="col-md-4 cart-remove-btn">
                   <button

@@ -67,3 +67,35 @@
     margin-top: 10px; /* Moved the address to the bottom */
   }
   
+
+
+  .quantity-controls {
+    display: flex;
+    align-items: center;
+  }
+  
+  .quantity-btn {
+    background-color: #4caf50; /* Green color */
+    border: none;
+    color: white;
+    padding: 8px 12px; /* Adjust padding as needed */
+    margin: 0 8px; /* Adjust margin for spacing between buttons */
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+  
+    &:hover {
+      background-color: #45a049; /* Darker green color on hover */
+      transform: scale(1.1); /* Add a slight scale effect on hover */
+    }
+  
+    &:disabled {
+      background-color: #cccccc; /* Gray color for disabled state */
+      cursor: not-allowed;
+    }
+  }
+  .quantity-label {
+    margin-right: 8px; /* Adjust margin as needed */
+    font-size: 1rem;
+  }
+  

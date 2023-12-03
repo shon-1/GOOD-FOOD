@@ -86,19 +86,19 @@ const HomePage = () => {
     } else {
       all = all.filter((c) => c !== id);
     }
-    console.log('Updated checked array:', all); 
+    console.log('Updated checked array:', all);
     setChecked(all);
   };
   useEffect(() => {
     console.log('useEffect 1 - checked:', checked);
-  console.log('useEffect 1 - radio:', radio);
+    console.log('useEffect 1 - radio:', radio);
     if (!checked.length || !radio.length) getAllProducts();
     console.log('Calling getAllProducts');
   }, [checked.length, radio.length]);
 
   useEffect(() => {
     console.log('useEffect 2 - checked:', checked);
-  console.log('useEffect 2 - radio:', radio);
+    console.log('useEffect 2 - radio:', radio);
     if (checked.length || radio.length) filterProduct();
     console.log('Calling filterProduct');
   }, [checked, radio]);
@@ -133,18 +133,18 @@ const HomePage = () => {
         />
       </div>
       <div className="fake-container">
- LOading.......
+        LOading.......
 
-  </div> <div className="fake-container">
- Server Connecting.....! 
-    
-  </div>
+      </div> <div className="fake-container">
+        Server Connecting.....!
+
+      </div>
       {/*<div className="search-container">
     <SearchInput />
   </div>*/}
-  <div className="search-container">
-  <SearchInput />
-  </div>
+      <div className="search-container">
+        <SearchInput />
+      </div>
 
       {/* banner image 
       <div className="center-search-input">
@@ -217,11 +217,21 @@ const HomePage = () => {
                     <button
                       className="btn btn-dark ms-1"
                       onClick={() => {
-                          setCart([...cart, p]);
-                          localStorage.setItem(
-                          "cart",
-                         JSON.stringify([...cart, p])
-                        );
+                        // Check if the item is already in the cart
+                        const existingItem = cart.find((item) => item._id === p._id);
+
+                        if (existingItem) {
+                          // If the item is already in the cart, update its quantity
+                          const updatedCart = cart.map((item) =>
+                            item._id === p._id ? { ...item, quantity: item.quantity + 1 } : item
+                          );
+                          setCart(updatedCart);
+                        } else {
+                          // If the item is not in the cart, add it with quantity 1
+                          setCart([...cart, { ...p, quantity: 1 }]);
+                        }
+
+                        localStorage.setItem("cart", JSON.stringify(cart));
                         toast.success("Item Added to cart");
                       }}
                     >
