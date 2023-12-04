@@ -1,4 +1,4 @@
-import express  from "express";
+import express from "express";
 
 import Razorpay from "razorpay";
 
@@ -15,11 +15,11 @@ const router = express.Router()
 
 router.post("/orders", async (req, res) => {
     console.log("B order api 123 ");
-    
-   
+
+
     const { amount, products, buyer } = req.body;
-    console.log(" backend have :", amount ,"product:", products,"buyyer :",buyer);
-  
+    console.log(" backend have :", amount, "product:", products, "buyyer :", buyer);
+
     try {
         console.log("B Creating Razorpay instance");
         const instance = new Razorpay({
@@ -28,48 +28,42 @@ router.post("/orders", async (req, res) => {
         });
 
         const options = {
-            amount: amount * 100, // amount in smallest currency unit
+            amount: amount * 100,
             currency: "INR",
             receipt: "receipt_order_74394",
         };
         console.log("B Creating Razorpay order");
         const order1 = await instance.orders.create(options);
-
         if (!order1) {
             return res.status(500).send("Some error occurred");
         }
+        const productIds = products.map(product => product.productId);
+        const productDocuments = await productModel.find({ _id: { $in: productIds } });
+        const productDetails = productDocuments.map(product => ({
+            _id: product._id,
+            name: product.name,
 
-        const productIds = products.map(product => product.productId); // Extract productIds from the array
+        }));
 
-    // Fetch the product documents from the database based on the provided IDs
-    const productDocuments = await productModel.find({ _id: { $in: productIds } });
+        // Creating newOrder object
+        const newOrder = new orderModel({
+            products: productDetails,
+            payment: {
+                amount: amount, // Assuming you want to store the original amount
+                payment: "success",
+                currency: options.currency,
+                receipt: options.receipt,
+            },
+            buyer: buyer.userId, // Assuming buyer is already a mongoose ObjectId
+            status: "Not Process",
+        });
 
-    // Create an array of product objects with only necessary fields
-    const productDetails = productDocuments.map(product => ({
-      _id: product._id,
-      name: product.name, // Replace with the actual field name from your product schema
-      // Add other necessary fields
-    }));
+        console.log("New Order Object:", newOrder);
 
-    // Creating newOrder object
-    const newOrder = new orderModel({
-      products: productDetails,
-      payment: {
-        amount: amount, // Assuming you want to store the original amount
-        payment:"success",
-        currency: options.currency,
-        receipt: options.receipt,
-      },
-      buyer: buyer.userId, // Assuming buyer is already a mongoose ObjectId
-      status: "Not Process",
-    });
+        await newOrder.save();
 
-    console.log("New Order Object:", newOrder);
 
-    await newOrder.save();
 
-    
-        
         res.json(order1);
         console.log(order1);
 
@@ -77,7 +71,7 @@ router.post("/orders", async (req, res) => {
         console.error("Error in /orders endpoint:", error);
         res.status(500).send(error.message || "Internal Server Error");
     }
-    
+
 });
 
 router.post("/success", async (req, res) => {
@@ -90,8 +84,8 @@ router.post("/success", async (req, res) => {
             razorpayOrderId,
             razorpaySignature,
         } = req.body;
-        console.log("create",orderCreationId,"payid",
-            razorpayPaymentId,"orderid",
+        console.log("create", orderCreationId, "payid",
+            razorpayPaymentId, "orderid",
             razorpayOrderId,)
         // Replace the hardcoded secret with your actual secret key
         const secret = process.env.KEY_SECRET;
