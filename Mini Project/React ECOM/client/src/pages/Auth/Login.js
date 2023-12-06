@@ -74,6 +74,7 @@ const Login = () => {
               onChange={(e) => setEmail(e.target.value)}
               className="form-control"
               id="exampleInputEmail1"
+              name="email"
               placeholder="Enter Your Email "
               required
             />
@@ -85,6 +86,7 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               className="form-control"
               id="exampleInputPassword1"
+              name="password"
               placeholder="Enter Your Password"
               required
             />
@@ -94,7 +96,7 @@ const Login = () => {
           </div>
           
 
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary" id="testid">
             LOGIN
           </button>
         </form>
