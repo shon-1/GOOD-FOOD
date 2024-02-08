@@ -1,0 +1,41 @@
+{
+  "name": "react-ecom",
+  "proxy": "http://localhost:8080",
+  "version": "1.0.0",
+  "description": "Food delivery",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix ./client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "keywords": [],
+  "author": "ShonG",
+  "license": "Korean Govt Verifid",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "braintree": "^3.19.0",
+    "braintree-web-drop-in-react": "^1.2.1",
+    "colors": "^1.4.0",
+    "concurrently": "^8.2.1",
+    "cors": "^2.8.5",
+    "country-flag-icons": "^1.5.7",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-formidable": "^1.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^7.5.2",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.9.5",
+    "nodemon": "^3.0.1",
+    "razorpay": "^2.9.2",
+    "react-country-flag": "^3.1.0",
+    "react-helmet": "^6.1.0",
+    "react-icons": "^4.11.0",
+    "react-select": "^5.7.7",
+    "slugify": "^1.6.6"
+  }
+}

@@ -1,0 +1,101 @@
+.cart-page {
+    margin-top: 64px;
+  }
+  
+  .cart-page h1 {
+    padding: 15px !important;
+    font-family: "Roboto", sans-serif;
+    font-weight: normal;
+    background-color: rgba(0, 0, 255, 0.2) !important; /* Increased transparency */
+    border: 2px solid rgba(0, 0, 255, 0.5); /* Increased border thickness and added transparency */
+  }
+  
+  .cart-page h1 > p {
+    font-size: 20px;
+    margin-top: 10px;
+  }
+  
+  .cart-page .card {
+    padding: 5px !important;
+    height: 150px !important;
+    margin-bottom: 5px !important;
+  }
+  
+  .cart-page .cart-remove-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .cart-page .cart-summary {
+    text-align: center;
+    margin-top: 10px; /* Moved the address to the bottom */
+  }
+  .cart-page {
+    margin-top: 64px;
+  }
+  
+  .cart-page h1 {
+    padding: 15px !important;
+    font-family: "Roboto", sans-serif;
+    font-weight: normal;
+    background-color: rgba(0, 0, 255, 0.2) !important; /* Increased transparency */
+    border: 2px solid rgba(0, 0, 255, 0.5); /* Increased border thickness and added transparency */
+    width: 100%; /* Increased width to 80% of its container */
+  }
+  
+  .cart-page h1 > p {
+    font-size: 20px;
+    margin-top: 10px;
+  }
+  
+  .cart-page .card {
+    padding: 5px !important;
+    height: 150px !important;
+    margin-bottom: 5px !important;
+    width: 100%; 
+  }
+  
+  .cart-page .cart-remove-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .cart-page .cart-summary {
+    text-align: center;
+    margin-top: 10px; /* Moved the address to the bottom */
+  }
+  
+
+
+  .quantity-controls {
+    display: flex;
+    align-items: center;
+  }
+  
+  .quantity-btn {
+    background-color: #4caf50; /* Green color */
+    border: none;
+    color: white;
+    padding: 8px 12px; /* Adjust padding as needed */
+    margin: 0 8px; /* Adjust margin for spacing between buttons */
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+  
+    &:hover {
+      background-color: #45a049; /* Darker green color on hover */
+      transform: scale(1.1); /* Add a slight scale effect on hover */
+    }
+  
+    &:disabled {
+      background-color: #cccccc; /* Gray color for disabled state */
+      cursor: not-allowed;
+    }
+  }
+  .quantity-label {
+    margin-right: 8px; /* Adjust margin as needed */
+    font-size: 1rem;
+  }
+  
