@@ -12,7 +12,7 @@ const AdminOrders = () => {
   const [status, setStatus] = useState([
     "Not Process",
     "Processing",
-    "Shipped",
+    "Out for delivery",
     "deliverd",
     "cancel",
   ]);
@@ -87,7 +87,7 @@ const AdminOrders = () => {
                     </tr>
                   </tbody>
                 </table>
-                <div className="container">
+                <div className="container"style={{ height: `${o?.products?.length * 232 }px `}}>
                   {o?.products?.map((p, i) => (
                     <div className="row mb-2 p-3 card flex-row" key={p._id}>
                       <div className="col-md-4">

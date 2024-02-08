@@ -58,7 +58,7 @@ const Header = () => {
               </NavDropdown>
             )}
             <li className="nav-item">
-                <NavLink to="/cart" className="nav-link">
+                <NavLink to="/cart" className="nav-link"  id="cartLink">
                   <Badge count={cart?.length} showZero offset={[10, -5]}>
                     Cart
                   </Badge>

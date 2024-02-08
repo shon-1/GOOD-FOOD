@@ -198,6 +198,23 @@ const CreateProduct = () => {
     getAllCategory();
   }, []);
 
+  const allowedImageFormats = ['image/jpeg', 'image/jpg', 'image/png'];
+
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+  
+    if (selectedFile && allowedImageFormats.includes(selectedFile.type)) {
+      setPhoto(selectedFile);
+    } else {
+      // Notify the user that the selected file is not a valid image format
+      toast.error('Please select a valid image file (jpg, jpeg, png).');
+      // Optionally, you can also reset the file input
+      e.target.value = null;
+    }
+  };
+
+
+
   //create product function
   const handleCreate = async (e) => {
     e.preventDefault();
@@ -249,7 +266,8 @@ const CreateProduct = () => {
                       type="file"
                       name="photo"
                       accept="image/*"
-                      onChange={(e) => setPhoto(e.target.files[0])}
+                      onChange={handleFileChange}
+                     
                     />
                   </UploadLabel>
 
