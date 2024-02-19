@@ -27,6 +27,7 @@ import Search from "./pages/Search";
 import ProductDetails from "./pages/ProductDetails";
 import CartPage from "./pages/CartPage";
 import AdminOrders from "./pages/Admin/AdminOrders";
+import Delivery  from "./pages/Admin/Delivery.js";
 
 // Routes like container
 function App() {
@@ -54,6 +55,7 @@ function App() {
           <Route path="Users" element={<Users />} />
           <Route path="Products" element={<Products/>}/>
           <Route path="Orders" element={<AdminOrders/>}/>
+          <Route path="Delivery" element={<Delivery/>}/>
         </Route>
 
 

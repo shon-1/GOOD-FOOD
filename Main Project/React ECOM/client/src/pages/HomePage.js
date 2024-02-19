@@ -118,7 +118,7 @@ const HomePage = () => {
     }
   };
   return (
-    <Layout title={"ALl Products - Best offers "}>
+    <Layout title={"DreamDish "}>
       {/* banner image */}
       <div class="image-container2">
         <img
@@ -151,7 +151,14 @@ const HomePage = () => {
         <SearchInput />
       </div>*/}
       <div className="container-fluid row mt-5 home-page ">
+      
         <div className="col-md-2 filters">
+        <button
+              className="btn btn-danger"
+              onClick={() => window.location.reload()}
+            >
+              RESET FILTERS
+            </button>
           <h4 className="text-center">Filter By Category</h4>
           <div className="d-flex flex-column">
             {categories?.map((c) => (
@@ -164,6 +171,7 @@ const HomePage = () => {
             ))}
           </div>
           {/* price filter */}
+          
           <h4 className="text-center mt-4">Filter By Price</h4>
           <div className="d-flex flex-column">
             <Radio.Group onChange={(e) => setRadio(e.target.value)}>
