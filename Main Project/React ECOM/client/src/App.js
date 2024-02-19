@@ -28,7 +28,8 @@ import ProductDetails from "./pages/ProductDetails";
 import CartPage from "./pages/CartPage";
 import AdminOrders from "./pages/Admin/AdminOrders";
 import Delivery  from "./pages/Admin/Delivery.js";
-
+import DeliveryAdd from "./pages/Admin/DeliveryAdd.js";
+import DeliveryView from "./pages/Admin/DeliveryView.js";
 // Routes like container
 function App() {
   return (
@@ -56,6 +57,10 @@ function App() {
           <Route path="Products" element={<Products/>}/>
           <Route path="Orders" element={<AdminOrders/>}/>
           <Route path="Delivery" element={<Delivery/>}/>
+            <Route path="Delivery/add-delivery-boy" element={<DeliveryAdd/>}/>
+            <Route path="Delivery/view-delivery-boys" element={<DeliveryView/>}/>
+      
+          
         </Route>
 
 

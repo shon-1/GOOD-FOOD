@@ -35,7 +35,7 @@ const AdminMenu = () => {
       <MenuItem to="/Dashboard/create-product">Add Item</MenuItem>
       <MenuItem to="/Dashboard/products">Item</MenuItem>
       <MenuItem to="/Dashboard/orders">Orders</MenuItem>
-      <MenuItem to="/Dashboard/Delivery">Delivery</MenuItem>
+      <MenuItem to="/Dashboard/Delivery">Delivery Managment </MenuItem>
       {/*<MenuItem to="/Dashboard/Users">Users</MenuItem>*/}
     </MenuContainer>
   );
