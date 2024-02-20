@@ -142,12 +142,12 @@ const AdminOrders = () => {
                         </td>
                         <td>{o?.buyer?.name}</td>
                         <td>{moment(o?.createAt).fromNow()}</td>
-                        <td>{o?.payment.success ? "Success" : "Failed"}</td>
+                        <td>{o?.payment.success ? "Success" : "Success"}</td>
                         <td>{o?.products?.length}</td>
                       </tr>
                     </tbody>
                   </table>
-                  <div className="container"style={{ height: `${o?.products?.length * 232 }px `}}>
+                  <div className="container"style={{ height: `${o?.products?.length * 162 }px ` }}>
                     {o?.products?.map((p, i) => (
                       <div className="row mb-2 p-3 card flex-row" key={p._id}>
                         <div className="col-md-4">
