@@ -13,6 +13,7 @@ router.post("/DeliveryAdd/:orderId",
 );
 
 router.get("/Allorders", getOrdersNotInDelivery);
-router.get("/Onlyorders", getOrdersInDelivery);
+//router.get("/Onlyorders", getOrdersInDelivery);
+router.get('/Onlyorders/:userId', getOrdersInDelivery);
 
 export default router;

@@ -46,7 +46,7 @@ const Login = () => {
             console.log("Before navigating to Admin Dashboard");
                 if (res.data.user.address === "worker") {
                   console.log("address=worker");
-                  navigate("/Dashboard/DeliveryOrders");
+                  navigate("/Dashboard/DeliveryHome");
                   return;
                 }
             navigate(location.state || "/Dashboard/AdminDashboard");

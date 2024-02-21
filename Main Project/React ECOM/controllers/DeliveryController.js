@@ -72,24 +72,35 @@ export const getOrdersNotInDelivery= async (req, res) => {
 
 //------------------------------------------------------ in delivery
 
-export const getOrdersInDelivery= async (req, res) => {
+export const getOrdersInDelivery = async (req, res) => {
   try {
-    // Find all orders that do not have corresponding records in the delivery table
-    const ordersNotInDelivery = await orderModel.find({
-      _id: { $in: await DeliveryModel.distinct("orderId") }
-    });
+    const userId = req.params.userId; // Assuming userId is passed as a parameter
+
+    // Find orderId values associated with the given userId in the delivery model
+    const deliveryOrders = await DeliveryModel.find({ userId: userId });
+    const orderIds = deliveryOrders.map(deliveryOrder => deliveryOrder.orderId);
+
+    // Find orders in the orderModel based on the retrieved orderIds
+    const ordersInDelivery = await orderModel
+      .find({ _id: { $in: orderIds } })
+      .populate("payment")
+      .populate({
+        path: "buyer",
+        select: "name phone address", 
+      })
+      .populate("products"); 
 
     res.status(200).send({
       success: true,
-      message: "Orders not in delivery retrieved successfully",
-      orders: ordersNotInDelivery
+      message: "Orders in delivery retrieved successfully",
+      orders: ordersInDelivery,
     });
   } catch (error) {
     console.log(error);
     res.status(500).send({
       success: false,
-      message: "Error in retrieving orders not in delivery",
-      error: error.message
+      message: "Error in retrieving orders in delivery",
+      error: error.message,
     });
   }
 };
