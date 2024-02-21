@@ -30,7 +30,7 @@ import AdminOrders from "./pages/Admin/AdminOrders";
 import Delivery  from "./pages/Admin/Delivery.js";
 import DeliveryAdd from "./pages/Admin/DeliveryAdd.js";
 import DeliveryView from "./pages/Admin/DeliveryView.js";
-import DeliveryOrders from "./pages/Admin/DeliveryOrders.js";
+import DeliveryOrders from "./pages/Admin/Delivery/DeliveryOrders.js";
 
 // Routes like container
 function App() {

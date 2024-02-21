@@ -1,6 +1,7 @@
 
 import DeliveryModel from "../models/DeliveryModel.js";
 import UserModel from "../models/userModel.js";
+import orderModel from "../models/orderModel.js";
 
 //---------------------------------------------------------- Save order and delivery guy to delivery table
 
@@ -40,6 +41,55 @@ export const chooseOrderForDeliveryController = async (req, res) => {
       success: false,
       message: "Error in choosing order for delivery",
       error: error.message,
+    });
+  }
+};
+
+
+//--------------------------------------------------------------not in delivery
+
+export const getOrdersNotInDelivery= async (req, res) => {
+  try {
+    // Find all orders that do not have corresponding records in the delivery table
+    const ordersNotInDelivery = await orderModel.find({
+      _id: { $nin: await DeliveryModel.distinct("orderId") }
+    });
+
+    res.status(200).send({
+      success: true,
+      message: "Orders not in delivery retrieved successfully",
+      orders: ordersNotInDelivery
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in retrieving orders not in delivery",
+      error: error.message
+    });
+  }
+};
+
+//------------------------------------------------------ in delivery
+
+export const getOrdersInDelivery= async (req, res) => {
+  try {
+    // Find all orders that do not have corresponding records in the delivery table
+    const ordersNotInDelivery = await orderModel.find({
+      _id: { $in: await DeliveryModel.distinct("orderId") }
+    });
+
+    res.status(200).send({
+      success: true,
+      message: "Orders not in delivery retrieved successfully",
+      orders: ordersNotInDelivery
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in retrieving orders not in delivery",
+      error: error.message
     });
   }
 };

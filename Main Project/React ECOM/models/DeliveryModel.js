@@ -11,7 +11,7 @@ const DeliverySchema = new mongoose.Schema({
     ref: "Order",
     required: true
   }
-});
+},{timestamps:true});
 
 export default mongoose.model("Delivery", DeliverySchema);
 
