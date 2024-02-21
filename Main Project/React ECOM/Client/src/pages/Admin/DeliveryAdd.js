@@ -107,7 +107,7 @@ const DeliveryAdd = () => {
         email,
         password,
         phone,
-        address,
+        address:"worker",
         answer: answer !== null ? answer : "null",
       });
       if (res && res.data.success) {

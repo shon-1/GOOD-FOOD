@@ -6,7 +6,9 @@ import connectDB from './config/db.js';
 import authRoutes from './routes/authRoute.js';
 import categoryRoutes from './routes/categoryRoute.js';
 import productRoutes from './routes/productRoute.js'
+import DeliveryRoutes from './routes/DeliveryRoute.js'
 //import paymentController from './controllers/paymentController.js'
+
 import cors from 'cors';
 
 
@@ -28,6 +30,8 @@ const app = express();
 app.use(express.json())
 app.use(morgan('dev'))
 
+app.use(express.json());
+
 app.use(cors()); // Add this line to enable CORS --gpt
 
 //routes
@@ -38,6 +42,8 @@ app.use("/api/v1/category",categoryRoutes);
 app.use("/api/v1/product",productRoutes);
 
 app.use("/api/v1/payment",Razorpay);
+
+app.use("/api/v1/Delivery",DeliveryRoutes);
 
 
 
