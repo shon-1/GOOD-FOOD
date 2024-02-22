@@ -51,9 +51,16 @@ export const chooseOrderForDeliveryController = async (req, res) => {
 export const getOrdersNotInDelivery= async (req, res) => {
   try {
     // Find all orders that do not have corresponding records in the delivery table
-    const ordersNotInDelivery = await orderModel.find({
-      _id: { $nin: await DeliveryModel.distinct("orderId") }
-    });
+    const ordersNotInDelivery = await orderModel
+    .find({ _id: { $nin: await DeliveryModel.distinct("orderId") } })
+    .sort({ createdAt: -1 })
+    .populate("payment")
+      .populate({
+        path: "buyer",
+        select: "name phone address", 
+      })
+      .populate("products"); 
+    
 
     res.status(200).send({
       success: true,
@@ -104,3 +111,28 @@ export const getOrdersInDelivery = async (req, res) => {
     });
   }
 };
+
+//--------------------------------------------------------------count delivery
+export const countUserDeliveries = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    // Count the number of documents where userId matches
+    const count = await DeliveryModel.countDocuments({ userId: userId });
+
+    res.status(200).send({
+      success: true,
+      message: "Number of deliveries for the user retrieved successfully",
+      count: count,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in retrieving the count of deliveries for the user",
+      error: error.message,
+    });
+  }
+};
+
+//----------------------------------------------------------------

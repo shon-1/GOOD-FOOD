@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import AdminMenu from "../../../components/layout/AdminMenu";
 import Layout from "../../../components/layout/Layout";
 import { useAuth } from "../../../context/auth";
@@ -50,6 +51,8 @@ const EditButton = styled.button`
   font-size: 12px;
   width: 100px;
   height: 50px;
+  pointer-events: ${(props) => (props.disabled ? "none" : "auto")}; // Disable pointer events when disabled
+  opacity: ${(props) => (props.disabled ? 0.5 : 1)}; // Reduce opacity when disabled
 `;
 
 const AnimatedContainer = styled(Container)`
@@ -70,16 +73,26 @@ const DeliveryOrders = () => {
     "Not Process",
     "Processing",
     "Out for delivery",
-    "deliverd",
+    "delivered",
     "cancel",
   ]);
   const [orders, setOrders] = useState([]);
-  const [auth, setAuth] = useAuth();
-  
+  const [auth] = useAuth(); // Destructure auth, we don't need to setAuth in this component
+
   const getOrders = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8080/api/v1/auth/all-orders");
-      setOrders(data);
+      const response = await axios.get(
+        "http://localhost:8080/api/v1/Delivery/Allorders"
+      );
+      if (response.data && response.data.orders) {
+        const ordersWithButtonClicked = response.data.orders.map((order) => ({
+          ...order,
+          buttonClicked: false,
+        }));
+        setOrders(ordersWithButtonClicked);
+      } else {
+        console.error("Invalid response format: missing orders array");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -89,58 +102,74 @@ const DeliveryOrders = () => {
     if (auth?.token) getOrders();
   }, [auth?.token]);
 
-  const handleChange = async (orderId, value) => {
+  const handleButtonClick = async (orderId) => {
     try {
-      const { data } = await axios.put(`http://localhost:8080/api/v1/auth/order-status/${orderId}`, {
-        status: value,
+    
+      const userId = auth?.user?._id;
+     
+      const response = await axios.post(
+        `http://localhost:8080/api/v1/Delivery/DeliveryAdd/${orderId}`,
+        { userId }
+      );
+    
+      console.log(response);
+      toast.success(response.data.message ,{
+        duration: 4000, // Keep the success message displayed for 4 seconds
       });
-      getOrders();
+      const updatedOrders = orders.map((order) => {
+        if (order._id === orderId) {
+          return { ...order, buttonClicked: true }; // Set buttonClicked to true for the clicked order
+        }
+        return order;
+      });
+      setOrders(updatedOrders);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
   return (
     <AnimatedContainer>
       <MainContent>
-        <Header>All Orders</Header>
-        {orders?.map((o, i) => (
+        <Header>Orders you Choose</Header>
+
+        {orders.map((o, i) => (
           <div className="border shadow mb-3" key={o._id}>
             <Table className="table">
               <thead>
                 <TableRow>
                   <TableCell>#</TableCell>
-                  <TableCell>Status</TableCell>
                   <TableCell>Buyer</TableCell>
                   <TableCell>Date</TableCell>
                   <TableCell>Payment</TableCell>
                   <TableCell>Quantity</TableCell>
+                  <TableCell>Action</TableCell> 
                 </TableRow>
               </thead>
               <tbody>
                 <TableRow>
                   <TableCell>{i + 1}</TableCell>
-                  <TableCell>
-                    <Select
-                      bordered={false}
-                      onChange={(value) => handleChange(o._id, value)}
-                      defaultValue={o?.status}
-                    >
-                      {status.map((s, i) => (
-                        <Option key={i} value={s}>
-                          {s}
-                        </Option>
-                      ))}
-                    </Select>
-                  </TableCell>
                   <TableCell>{o?.buyer?.name}</TableCell>
                   <TableCell>{moment(o?.createAt).fromNow()}</TableCell>
-                  <TableCell>{o?.payment.success ? "Success" : "Success"}</TableCell>
+                  <TableCell>
+                    {o?.payment.success ? "Success" : "Success"}
+                  </TableCell>
                   <TableCell>{o?.products?.length}</TableCell>
+                  <TableCell>
+                    <EditButton
+                      disabled={o.buttonClicked} // Disable button if it's already clicked
+                      onClick={() => handleButtonClick(o._id)}
+                    >
+                      {o.buttonClicked ? "Selected":"Deliver This"}
+                    </EditButton>
+                  </TableCell>
                 </TableRow>
               </tbody>
             </Table>
-            <div className="container" style={{ height: `${o?.products?.length * 145}px` }}>
+            <div
+              className="container"
+              style={{ height: `${o?.products?.length * 145}px` }}
+            >
               {o?.products?.map((p, i) => (
                 <div className="row mb-2 p-3 card flex-row" key={p._id}>
                   <div className="col-md-4">
@@ -154,7 +183,7 @@ const DeliveryOrders = () => {
                   </div>
                   <div className="col-md-8">
                     <p>{p.name}</p>
-                    <p>{p.description.substring(0, 30)}</p>
+                    <p>{p.description?.substring(0, 30)}</p>
                     <p>Price : {p.price}</p>
                   </div>
                 </div>
@@ -162,8 +191,11 @@ const DeliveryOrders = () => {
             </div>
           </div>
         ))}
+        <Toaster/>
       </MainContent>
     </AnimatedContainer>
+   
+    
   );
 };
 
