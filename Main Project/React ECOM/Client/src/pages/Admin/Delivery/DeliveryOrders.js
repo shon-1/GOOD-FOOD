@@ -131,7 +131,7 @@ const DeliveryOrders = () => {
   return (
     <AnimatedContainer>
       <MainContent>
-        <Header>Orders you Choose</Header>
+        <Header>Delivery left</Header>
 
         {orders.map((o, i) => (
           <div className="border shadow mb-3" key={o._id}>

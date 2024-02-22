@@ -89,19 +89,16 @@ const Button = styled.button`
 
 // Then use ButtonStyle in your component
 
-
 const DeliveryOnlyOrders = () => {
   const [statusOptions] = useState([
     "Not Processed",
     "Processing",
     "Out for Delivery",
     "Delivered",
-    
   ]);
   const [orders, setOrders] = useState([]);
   const [auth] = useAuth(); // Accessing authentication context
-  const [statusIndex, setStatusIndex] = useState(0); 
-
+  const [statusIndex, setStatusIndex] = useState(0);
   const [cycleCompleted, setCycleCompleted] = useState(false);
 
   const handleClickStatus = async (orderId) => {
@@ -158,77 +155,82 @@ const DeliveryOnlyOrders = () => {
     }
   };
 
+  // Display only the first order
+  const order = orders[0];
+
   return (
     <Layout>
-    <Container>
-      <ContentWrapper>
-        <Header>Your Orders</Header>
-        {orders.map((order) => (
-          <OrderCard key={order._id}>
-            <OrderTable>
-              <tbody>
-                <TableRow>
-                  <TableCell>Status:</TableCell>
-                  <TableCell>
-                  <button
-                      style={{
-                        backgroundColor: '#ffff99',
-                        border: 'none',
-                        padding: '8px 16px',
-                        borderRadius: '5px',
-                        cursor: 'pointer',
-                      }}
-                      onClick={() => handleClickStatus(order._id)}
-                    >
-                      {/* Displaying the current status */}
-                      {/* You may need to update this logic */}
-                      {statusOptions[Math.floor(Math.random() * statusOptions.length)]}
-                    </button>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Buyer:</TableCell>
-                  <TableCell>{order.buyer.name}</TableCell>
-                </TableRow>
-                 <TableRow>
-                  <TableCell>Phone:</TableCell>
-                  <TableCell>{order.buyer.phone}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Address:</TableCell>
-                  <TableCell>{order.buyer.address}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Date:</TableCell>
-                  <TableCell>{moment(order.createAt).fromNow()}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Payment:</TableCell>
-                  <TableCell>{order.payment.success ? "Success" : "Success"}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Quantity:</TableCell>
-                  <TableCell>{order.products.length}</TableCell>
-                </TableRow>
-               
-              </tbody>
-            </OrderTable>
-            <ProductList>
-              {order.products.map((product) => (
-                <ProductItem key={product._id}>
-                  <ProductImage src={`http://localhost:8080/api/v1/product/product-photo/${product._id}`} alt={product.name} />
-                  <ProductDetails>
-                    <p>{product.name}</p>
-                    <p>{product.description}</p>
-                    <p>Price: ${product.price}</p>
-                  </ProductDetails>
-                </ProductItem>
-              ))}
-            </ProductList>
-          </OrderCard>
-        ))}
-      </ContentWrapper>
-    </Container>
+      <Container>
+        <ContentWrapper>
+          <Header>Your Delivery</Header>
+          {order && (
+            <OrderCard key={order._id}>
+              <OrderTable>
+                <tbody>
+                  <TableRow>
+                    <TableCell>Status:</TableCell>
+                    <TableCell>
+                      <button
+                        style={{
+                          backgroundColor: "#ffff99",
+                          border: "none",
+                          padding: "8px 16px",
+                          borderRadius: "5px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => handleClickStatus(order._id)}
+                      >
+                        {/* Displaying the current status */}
+                        {/* You may need to update this logic */}
+                        {statusOptions[Math.floor(Math.random() * statusOptions.length)]}
+                      </button>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Buyer:</TableCell>
+                    <TableCell>{order.buyer.name}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Phone:</TableCell>
+                    <TableCell>{order.buyer.phone}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Address:</TableCell>
+                    <TableCell>{order.buyer.address}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Date:</TableCell>
+                    <TableCell>{moment(order.createAt).fromNow()}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Payment:</TableCell>
+                    <TableCell>{order.payment.success ? "Success" : "Success"}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Quantity:</TableCell>
+                    <TableCell>{order.products.length}</TableCell>
+                  </TableRow>
+                </tbody>
+              </OrderTable>
+              <ProductList>
+                {order.products.map((product) => (
+                  <ProductItem key={product._id}>
+                    <ProductImage
+                      src={`http://localhost:8080/api/v1/product/product-photo/${product._id}`}
+                      alt={product.name}
+                    />
+                    <ProductDetails>
+                      <p>{product.name}</p>
+                      <p>{product.description}</p>
+                      <p>Price: ${product.price}</p>
+                    </ProductDetails>
+                  </ProductItem>
+                ))}
+              </ProductList>
+            </OrderCard>
+          )}
+        </ContentWrapper>
+      </Container>
     </Layout>
   );
 };

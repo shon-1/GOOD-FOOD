@@ -1,7 +1,78 @@
 
 import DeliveryModel from "../models/DeliveryModel.js";
-import UserModel from "../models/userModel.js";
+import userModel from "../models/userModel.js";
 import orderModel from "../models/orderModel.js";
+import { comparePassword, hashPassword } from "../helpers/authHelper.js";
+//--------------------------------------------------------------register delivery
+
+
+export const registerDeliveryContoller = async (req, res) => {
+  try {
+      console.log("Received registration request #########");
+      const { name, email, password, phone, address, answer } = req.body
+      //validation
+      if (!name) {
+          return res.send({ error: 'Name is Required' })
+      }
+
+      if (!email) {
+          return res.send({ message: 'email is Required' })
+      }
+
+      if (!password) {
+          return res.send({ message: 'Phone is Required' })
+      }
+      if (!phone) {
+          return res.send({ message: 'email is Required' })
+      }
+
+      if (!address) {
+          return res.send({ message: 'address is Required' })
+      }
+
+      if (!answer) {
+          return res.send({ error: 'Answer is Required' })
+      }
+
+
+      //check User
+      const exsistingUser = await userModel.findOne({ email: email })
+      //Exsisting user ?
+      if (exsistingUser) {
+          return res.status(200).send({
+              success: false,
+              message: 'Alredy Registerd , please login',
+          })
+      }
+      //register user
+      const hashedPassword = await hashPassword(password)
+      if (!hashedPassword) {
+          return res.status(500).send({
+              success: false,
+              message: 'Error in hashing password',
+          });
+      }
+
+      //save
+      const user = await new userModel({ name, email, phone, address, password: hashedPassword, answer ,role:"1" }).save()
+
+      res.status(201).send({
+          success: true,
+          message: 'user Registration Successful',
+          user,
+
+      });
+  } catch (error) {
+      console.error("Error in registration: ########", error);
+      console.log(error)
+      res.status(500).send({
+          success: false,
+          messsage: 'Error in Registration',
+          error
+      })
+
+  }
+};
 
 //---------------------------------------------------------- Save order and delivery guy to delivery table
 
@@ -91,6 +162,7 @@ export const getOrdersInDelivery = async (req, res) => {
     const ordersInDelivery = await orderModel
       .find({ _id: { $in: orderIds } })
       .populate("payment")
+      .sort({ createdAt: -1 })
       .populate({
         path: "buyer",
         select: "name phone address", 

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios"; // Import Axios
 import Layout from "../../../components/layout/Layout";
 import { useAuth } from "../../../context/auth";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
@@ -33,12 +34,30 @@ const Card = styled.div`
 `;
 const Card2 = styled.div`
   padding: 1rem;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: blue;
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.4);
   margin-bottom: 20px;
   justify-content: center;
   display: flex;
   align-items: center;
+ 
+  background-image: linear-gradient(-225deg, #231557 0%, #44107a 29%, #ff1361 67%, #fff800 100%);
+  background-size: auto auto;
+  background-clip: border-box;
+  background-size: 50% auto;
+  color: #fff;
+  background-clip: text;
+  text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: glow 1s infinite alternate;
+  font-size: 50px;
+
+  @keyframes glow {
+    to {
+      background-position: 200% center;
+    }
+  }
 `;
 
 const ClickableCardContainer = styled.div`
@@ -69,6 +88,23 @@ const Image = styled.img`
 
 const DeliveryHome = () => {
   const [auth] = useAuth();
+  const [totalDelivery, setTotalDelivery] = useState(0);
+
+  useEffect(() => {
+    const fetchTotalDelivery = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/api/v1/Delivery/Count/${auth?.user?._id}`);
+        setTotalDelivery(response.data.count);
+      } catch (error) {
+        console.error("Error fetching total delivery count:", error);
+      }
+    };
+
+    if (auth?.user?._id) {
+      fetchTotalDelivery();
+    }
+  }, [auth]);
+
   return (
     <Layout>
       <Container>
@@ -79,9 +115,9 @@ const DeliveryHome = () => {
               <h3> Email: {auth?.user?.email}</h3>
               <h3> Contact: 9207707172</h3>
             </Card>
-            <Card2 to="/Dashboard/Myorders">
-                Total delvery : 2
-              </Card2>
+            <Card2>
+              Total Delivery: {totalDelivery}
+            </Card2>
           </Content>
         </Row>
         <Row>
