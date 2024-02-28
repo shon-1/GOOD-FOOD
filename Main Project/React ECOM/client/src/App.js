@@ -32,6 +32,7 @@ import DeliveryAdd from "./pages/Admin/DeliveryAdd.js";
 import DeliveryView from "./pages/Admin/DeliveryView.js";
 import DeliveryOrders from "./pages/Admin/Delivery/DeliveryOrders.js";
 import DeliveryOnlyOrders from "./pages/Admin/Delivery/DeliveryOnlyOrders.js";
+import DeliveryOnly from "./pages/Admin/Delivery/DeliveryOnly.js";
 import DeliveryHome from "./pages/Admin/Delivery/DeliveryHome.js";
 
 // Routes like container
@@ -65,6 +66,7 @@ function App() {
           <Route path="Delivery/view-delivery-boys" element={<DeliveryView/>}/>
           <Route path="DeliveryOrders" element={<DeliveryOrders/>}/> 
           <Route path="MyOrders" element={<DeliveryOnlyOrders/>}/> 
+          <Route path="MyOrders1" element={<DeliveryOnly/>}/> 
           <Route path="DeliveryHome" element={<DeliveryHome/>}/> 
         </Route>
 

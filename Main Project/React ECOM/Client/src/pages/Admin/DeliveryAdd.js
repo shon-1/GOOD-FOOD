@@ -5,7 +5,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import toast from "react-hot-toast";
-import { Toaster } from "react-hot-toast";
+
+
+
+// Add required dependencies for file upload
+import XLSX from "xlsx";
 
 const Container = styled.div`
   padding: 3rem;
@@ -79,14 +83,17 @@ const DeliveryAdd = () => {
   const [password, setPassword] = useState("");
   const [answer, setAnswer] = useState(null);
   const [error, setError] = useState("");
+  const [file, setFile] = useState(null); // State to hold the uploaded file
 
   const handleGeneratePassword = () => {
     const randomPassword = generateRandomPassword();
-    setPassword(randomPassword)
-    
+    setPassword(randomPassword);
   };
 
-
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    setFile(file);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -98,17 +105,27 @@ const DeliveryAdd = () => {
       return;
     }
 
-
-
     try {
-      const res = await axios.post("http://localhost:8080/api/v1/Delivery/register", {
-        name,
-        email,
-        password,
-        phone,
-        address:"worker",
-        answer: answer !== null ? answer : "null",
-      });
+      let formData = new FormData();
+      formData.append("name", name);
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("phone", phone);
+      formData.append("address", address);
+      formData.append("answer", answer !== null ? answer : "null");
+      if (file) {
+        formData.append("file", file); // Append the file to form data
+      }
+
+      const res = await axios.post(
+        "http://localhost:8080/api/v1/Delivery/register",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       if (res && res.data.success) {
         toast.success(res.data.message);
         setTimeout(() => {
@@ -183,18 +200,26 @@ const DeliveryAdd = () => {
               <FormGroup>
                 <FieldContainer>
                   <Label>Password:</Label>
-                  
                   <Input
                     type="text"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     error={!password && error}
                   />
-                  <Button type="button" onClick={handleGeneratePassword}>Generate</Button>
+                  <Button type="button" onClick={handleGeneratePassword}>
+                    Generate
+                  </Button>
                 </FieldContainer>
               </FormGroup>
-              {error && <ErrorMessage>{error}</ErrorMessage>}  
-              
+              <FormGroup>
+                <Label>Upload File:</Label>
+                <Input
+                  type="file"
+                  onChange={handleFileUpload}
+                  accept=".xlsx, .xls"
+                />
+              </FormGroup>
+              {error && <ErrorMessage>{error}</ErrorMessage>}
               <Button type="submit">Add Delivery Guy</Button>
             </Form>
           </MainContent>

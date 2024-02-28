@@ -181,7 +181,6 @@ const CartPage = () => {
     }
   };
 
-
   return (
     <Layout>
       <div className="cart-page">
