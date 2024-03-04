@@ -3,9 +3,12 @@ import Layout from "./../components/layout/Layout";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import "../styles/ProductDetailsStyles.css";
+import toast from "react-hot-toast";
+import { useCart } from "../context/cart";
 
 const ProductDetails = () => {
   const params = useParams();
+  const [cart, setCart] = useCart();
   const navigate = useNavigate();
   const [product, setProduct] = useState({});
   const [relatedProducts, setRelatedProducts] = useState([]);
@@ -99,7 +102,7 @@ const ProductDetails = () => {
                   >
                     More Details
                   </button>
-                  {/* <button
+                <button
                   className="btn btn-dark ms-1"
                   onClick={() => {
                     setCart([...cart, p]);
@@ -111,7 +114,7 @@ const ProductDetails = () => {
                   }}
                 >
                   ADD TO CART
-                </button> */}
+                </button> 
                 </div>
               </div>
             </div>
