@@ -5,15 +5,13 @@ import {
   deleteProductController,
   getProductController,
   getSingleProductController,
-  
   productCountController,
-  
   productFiltersController,
   productListController,
   productPhotoController,
   searchProductController,
   updateProductController,
-
+  realtedProductController,
   brainTreePaymentController,
   braintreeTokenController,
 
@@ -37,6 +35,9 @@ router.get("/get-product", getProductController);
 
 //single product
 router.get("/get-product/:slug", getSingleProductController);
+
+//similar product
+router.get("/related-product/:pid/:cid", realtedProductController);
 
 //get photo
 router.get("/product-photo/:pid", productPhotoController);
