@@ -34,6 +34,7 @@ import DeliveryOrders from "./pages/Admin/Delivery/DeliveryOrders.js";
 import DeliveryOnlyOrders from "./pages/Admin/Delivery/DeliveryOnlyOrders.js";
 import DeliveryOnly from "./pages/Admin/Delivery/DeliveryOnly.js";
 import DeliveryHome from "./pages/Admin/Delivery/DeliveryHome.js";
+import Burgger from "./pages/user/Custom/burgger.js";
 
 // Routes like container
 function App() {
@@ -43,6 +44,7 @@ function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/search/:slug" element={<ProductDetails/>}/>
       <Route path="/product/:slug" element={<ProductDetails />} />
+      <Route path="/RegLog" element={<Burgger/>} />
       <Route path="/search" element={<Search/>}/>
       <Route path="/cart" element={<CartPage/>}/>
 
@@ -80,7 +82,7 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPasssword />} />
         <Route path="/reset-password/:token" element={<PasswordReset />} />
         <Route path="/*" element={<PageNotFound />} />
-        <Route path="/RegLog" element={<RegLog />} />
+        <Route path="/RegLog1" element={<RegLog />} />
         
 
       </Routes>
