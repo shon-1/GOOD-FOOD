@@ -26,6 +26,16 @@ const TopContainer = styled.div`
 const LeftTop = styled.div`
   padding: 20px;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+`;
+
+const CTop = styled.div`
+container:center;
+  padding: 20px;
+  flex: 1;
 `;
 
 const RightTop = styled.div`
@@ -33,9 +43,9 @@ const RightTop = styled.div`
   flex-direction: column;
   justify-content: center;
   
-  margin-top: 20px;
-  border: 1px solid #ddd; /* Add border */
-  padding: 20px; /* Add padding */
+  margin-top: 200px;
+  border: px solid #ddd; /* Add border */
+  padding: 05px; /* Add padding */
 
   @media (min-width: 768px) {
     margin-top: 0;
@@ -163,6 +173,8 @@ const ProductDetails = () => {
   const [spiceSliderValue, setSpiceSliderValue] = useState(50); // Default value set to 50
   const [note, setNote] = useState('');
   const [submittedNote, setSubmittedNote] = useState("");
+  const [showRightTop, setShowRightTop] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     if (params?.slug) getProduct();
@@ -236,52 +248,64 @@ const ProductDetails = () => {
             <h6>
               Price: <Price>{product?.price?.toLocaleString("en-US", {
                 style: "currency",
-                currency: "USD",
+                currency: "INR",
               })}</Price>
             </h6>
             <h6>Category: {product?.category?.name}</h6>
-            <StyledButton onClick={() => addToCart(product)}>ADD TO CART</StyledButton>
+            <CTop>
+              <StyledButton onClick={() => addToCart(product)}>ADD TO CART</StyledButton>
+              <StyledButton onClick={() => setShowRightTop(!showRightTop)}>Customize</StyledButton>
+            </CTop>
           </LeftTop>
-          <RightTop>
-            <div>
-              <h3>Salt Control</h3>
-              <StyledSlider
-                id="saltSlider"
-                className="multi-range"
-                type="range"
-                value={saltSliderValue}
-                onChange={(e) => setSaltSliderValue(parseInt(e.target.value))}
+         
+
+          {showRightTop && (
+
+
+            <RightTop>
+
+              <h1>Customize</h1>
+              <hr />
+              <div>
+                <h3>Salt Control</h3>
+                <StyledSlider
+                  id="saltSlider"
+                  className="multi-range"
+                  type="range"
+                  value={saltSliderValue}
+                  onChange={(e) => setSaltSliderValue(parseInt(e.target.value))}
+                />
+                <SliderValue value={saltSliderValue}>{saltSliderValue}</SliderValue>
+                <p>{saltSliderValue}</p> {/* Display the slider value */}
+                {saltSliderValue >= 80 && <p>Too salty</p>}
+                {saltSliderValue <= 35 && <p>Not Recommended</p>}
+                {saltSliderValue > 35 && saltSliderValue < 80 && <p>Balanced</p>}
+              </div>
+              <div>
+                <h3>Spice Level</h3>
+                <StyledSlider
+                  id="spiceSlider"
+                  className="multi-range"
+                  type="range"
+                  value={spiceSliderValue}
+                  onChange={(e) => setSpiceSliderValue(parseInt(e.target.value))}
+                />
+                {spiceSliderValue >= 80 && <p>Too spicy</p>}
+                {spiceSliderValue <= 40 && <p>Not Recommended</p>}
+                {spiceSliderValue > 40 && spiceSliderValue < 80 && <p>Balanced</p>}
+                <p>{spiceSliderValue}</p> {/* Display the slider value */}
+                {/* Add spice level messages here */}
+              </div>
+              Add Note (Message to the Chef):
+              <NoteBox
+                placeholder="Add notes..."
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
               />
-              <SliderValue value={saltSliderValue}>{saltSliderValue}</SliderValue>
-              <p>{saltSliderValue}</p> {/* Display the slider value */}
-              {saltSliderValue >= 80 && <p>Too salty</p>}
-              {saltSliderValue <= 35 && <p>Not Recommended</p>}
-              {saltSliderValue > 35 && saltSliderValue < 80 && <p>Balanced</p>}
-            </div>
-            <div>
-              <h3>Spice Level</h3>
-              <StyledSlider
-                id="spiceSlider"
-                className="multi-range"
-                type="range"
-                value={spiceSliderValue}
-                onChange={(e) => setSpiceSliderValue(parseInt(e.target.value))}
-              />
-              {spiceSliderValue >= 80 && <p>Too spicy</p>}
-              {spiceSliderValue <= 40 && <p>Not Recommended</p>}
-              {spiceSliderValue > 40 && spiceSliderValue < 80 && <p>Balanced</p>}
-              <p>{spiceSliderValue}</p> {/* Display the slider value */}
-              {/* Add spice level messages here */}
-            </div>
-          Add Note (Message to the Chef):
-          <NoteBox
-            placeholder="Add notes..."
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
-          />
-          {/* Submit button to save note */}
-          <StyledButton onClick={handleSubmitNote}>Submit Custom Settings</StyledButton>
-          </RightTop>
+              {/* Submit button to save note */}
+              <StyledButton onClick={handleSubmitNote}>Submit Custom Settings</StyledButton>
+            </RightTop>
+          )}
         </TopContainer>
         <BottomContainer>
           <h2>Similar Products</h2>

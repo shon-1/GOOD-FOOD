@@ -35,7 +35,7 @@ const Header = () => {
               <AiFillHome /> Home
             </Nav.Link>
             <Nav.Link as={Link} to="/RegLog">
-              Category
+              customize
             </Nav.Link>
             {!auth.user ? (
               <>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Layout from "../../../components/layout/Layout";
-import styled from "styled-components";
+import styled from "styled-components";  
 import Draggable from "react-draggable";
 import toast from "react-hot-toast";
 
@@ -9,6 +9,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  background-color: black;
 `;
 
 const TopContainer = styled.div`
@@ -36,7 +37,7 @@ const RightSide = styled.div`
 `;
 
 // DraggableImage component with position reset
-const DraggableImage = ({ src, alt }) => {
+const DraggableImage = ({ src, alt, price }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
   const handleStop = () => {
@@ -84,7 +85,11 @@ const UndoButton = styled.button`
   align-self: center;
   margin-top: 20px;
 `;
-
+const Price = styled.div`
+  align-self: center;
+  margin-top: 20px;
+  color: white;
+`;
 
 // Main component
 const Burgger = () => {
@@ -93,9 +98,38 @@ const Burgger = () => {
   const [undoStack, setUndoStack] = useState([]);
 
   // Function to handle ordering
-  const handleOrder = () => {
+  const handleOrder = async() => {
     console.log("Current stack order:", stackOrder);
     toast.error("Limit Reached");
+      // Check if droppedItems contains image URLs
+      if (droppedItems.length === 0) {
+        toast.error('No images to save');
+        return;
+      }
+    
+      try {
+        const response = await fetch('http://localhost:8080/api/v1/Customize/burgerImageOrder', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            order: droppedItems, // Assuming droppedItems contains the image URLs
+            
+          }),
+        });
+    
+        if (response.ok) {
+          // Handle successful response
+          toast.success('Image order saved successfully');
+        } else {
+          // Handle error response
+          toast.error('Failed to save image order');
+        }
+      } catch (error) {
+        console.error('Error saving image order:', error);
+        toast.error('Failed to save image order');
+      }
   };
 
   const handleDrop = (e) => {
@@ -108,12 +142,12 @@ const Burgger = () => {
         toast.error("Limit Reached");
         return;
       }
-      setDroppedItems((prevItems) => [...prevItems, "/images/8.png"]);
+      setDroppedItems((prevItems) => [...prevItems, { src: "/images/8.png", price: 8 }]);
       return;
     }
     const droppedData = e.dataTransfer.getData("text");
-    setDroppedItems((prevItems) => [...prevItems, droppedData]);
-    setUndoStack((prevStack) => [...prevStack, droppedData]);
+    setDroppedItems((prevItems) => [...prevItems, { src: droppedData, price: parseInt(droppedData.match(/\d+/)[0]) }]);
+    setUndoStack((prevStack) => [...prevStack, { src: droppedData, price: parseInt(droppedData.match(/\d+/)[0]) }]);
   };
 
   const allowDrop = (e) => {
@@ -129,12 +163,34 @@ const Burgger = () => {
     if (undoStack.length > 0) {
       const lastDroppedItem = undoStack.pop(); // Remove the last dropped item
       setDroppedItems((prevItems) =>
-        prevItems.filter((item) => item !== lastDroppedItem)
+        prevItems.filter((item) => item.src !== lastDroppedItem.src)
       );
       setUndoStack([...undoStack]); // Update the undo stack
     }
   };
 
+  // Calculate total price based on the dropped items
+  const calculateTotalPrice = () => {
+    let totalPrice = 0;
+    droppedItems.forEach((item) => {
+      totalPrice += item.price;
+    });
+    return totalPrice;
+  };
+  const calculateTotalPriceWithDiscount = () => {
+    const totalPrice = calculateTotalPrice();
+    if (totalPrice <= 1) {
+      return 1; // Return 1 if total price is less than or equal to 1
+    } else if (totalPrice < 5000) {
+      return 299; // Price if total is less than 5000
+    } else if (totalPrice >= 5000 && totalPrice < 10000) {
+      return 499; // Price if total is between 5000 and 10000
+    } else if (totalPrice >= 10000 && totalPrice < 15000) {
+      return 599; // Price if total is between 10000 and 15000
+    } else {
+      return 699; // Price if total is above 15000
+    }
+  };
   return (
     <Layout>
       <Container>
@@ -146,6 +202,7 @@ const Burgger = () => {
                   key={index}
                   src={`/images/${index}.png`}
                   alt={`Image ${index}`}
+                  price={index} // Manually assigning price here
                 />
               ))}
             </LeftSide>
@@ -153,26 +210,34 @@ const Burgger = () => {
           <RightSide>
             <DroppableArea onDrop={handleDrop} onDragOver={allowDrop}>
               {droppedItems.length <= 0 && (
-                setDroppedItems((prevItems) => [...prevItems, "/images/1.png"])
+                setDroppedItems((prevItems) => [...prevItems, { src: "/images/1.png", price: 1 }])
               )}
-              {stackOrder.map((image, index) => (
+              {stackOrder.map((item, index) => (
                 <DraggableImage
-                  src={image}
+                  src={item.src}
                   key={index}
                   alt={`Image ${index}`}
+                  price={item.price}
                 />
               ))}
               {droppedItems.map((item, index) => (
                 <DraggableImage
-                  src={item}
+                  src={item.src}
                   key={index}
                   alt={`Image ${index}`}
+                  price={item.price}
                 />
               ))}
             </DroppableArea>
+            
           </RightSide>
+          
         </TopContainer>
+        
         <div>
+        <Price>Total Price:  ₹{calculateTotalPrice()}</Price>
+            Discount Price:  ₹{calculateTotalPriceWithDiscount()}
+            <br></br>
           <ResetButton onClick={handleReset}>Reset</ResetButton> {"   "} 
           <OrderButton onClick={handleOrder}>Order</OrderButton>{"   "}
           <UndoButton onClick={handleUndo}>Undo</UndoButton>{"   "}

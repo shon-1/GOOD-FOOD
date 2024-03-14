@@ -7,6 +7,7 @@ import authRoutes from './routes/authRoute.js';
 import categoryRoutes from './routes/categoryRoute.js';
 import productRoutes from './routes/productRoute.js'
 import DeliveryRoutes from './routes/DeliveryRoute.js'
+import CustomizeRoutes from './routes/CustomizeRoute.js'
 //import paymentController from './controllers/paymentController.js'
 
 import cors from 'cors';
@@ -44,6 +45,9 @@ app.use("/api/v1/product",productRoutes);
 app.use("/api/v1/payment",Razorpay);
 
 app.use("/api/v1/Delivery",DeliveryRoutes);
+
+
+app.use("/api/v1/Customize",CustomizeRoutes);
 
 
 
