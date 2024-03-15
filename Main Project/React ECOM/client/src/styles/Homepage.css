@@ -22,7 +22,7 @@
     flex-wrap: wrap;
   }
   .home-page .card {
-    background-color: rgba(204, 214, 23, 0.098);
+    background-color: rgba(18, 239, 33, 0.098);
     width: 18rem;
     
 
@@ -98,7 +98,7 @@
   }
   
   .filters button {
-    background-color: black;
+    background-color: rgb(2, 79, 2);
     width: 100%;
     border: none;
     border-radius: 0;

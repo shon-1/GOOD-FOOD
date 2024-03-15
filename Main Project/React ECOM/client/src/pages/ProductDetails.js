@@ -215,7 +215,7 @@ const ProductDetails = () => {
       setCart(updatedCart);
     } else {
       // If the item is not in the cart, add it with quantity 1
-      setCart([...cart, { ...item, quantity: 1 }]);
+      setCart([...cart, { ...item, quantity: 1,spiceLevel: spiceSliderValue, saltLevel: saltSliderValue }]);
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
