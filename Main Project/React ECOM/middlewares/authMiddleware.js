@@ -37,3 +37,26 @@ export const isAdmin = async (req,res,next) => {
         
     }
 }
+
+
+//Delivery access
+export const isDelivery = async (req,res,next) => {
+    try {
+        const user = await userModel.findById(req.user._id)
+        if(user.role == 2){
+            next();
+        } else {
+            return res.status (401).send({
+                success:false,
+                message:'UnAuthorised Access'
+            })
+        }
+    } catch (error) {
+        console.log(error)
+        res.status(401).send({
+            success:false,
+            message:'Error in admin middileware'
+        })
+        
+    }
+}

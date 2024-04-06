@@ -1,5 +1,5 @@
 import express from "express";
-import { isAdmin, requireSignIn } from "./../middlewares/authMiddleware.js";
+import { isAdmin, isDelivery, requireSignIn } from "./../middlewares/authMiddleware.js";
 
 import { registerDeliveryContoller , chooseOrderForDeliveryController,getOrdersNotInDelivery,getOrdersInDelivery,countUserDeliveries  } from "../controllers/DeliveryController.js";
 
@@ -12,9 +12,9 @@ router.post("/DeliveryAdd/:orderId",
   chooseOrderForDeliveryController
 );
 
-router.post('/register', registerDeliveryContoller );
-router.get("/Allorders", getOrdersNotInDelivery);
-router.get('/Onlyorders/:userId', getOrdersInDelivery);
-router.get('/Count/:userId', countUserDeliveries );
+router.post('/register',  requireSignIn, isAdmin, registerDeliveryContoller );
+router.get("/Allorders",  requireSignIn, isDelivery, getOrdersNotInDelivery);
+router.get('/Onlyorders/:userId', requireSignIn, isDelivery, getOrdersInDelivery);
+router.get('/Count/:userId', requireSignIn, isDelivery, countUserDeliveries );
 
 export default router;

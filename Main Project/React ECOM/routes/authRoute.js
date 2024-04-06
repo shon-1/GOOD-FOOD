@@ -13,14 +13,8 @@ const router = express.Router()
 //register || method post
 router.post("/register", registerContoller);
 
-//router.post("/api/v1/auth/register", registerContoller);
-
 //LOGIN || POST
 router.post('/login',loginController)
-
-
-//Forgot Password || POST
-//router.post("/forgot-password", forgotPasswordController);
 
 // Forgot Password || POST
 router.post('/forgot-password', forgotPasswordController);
