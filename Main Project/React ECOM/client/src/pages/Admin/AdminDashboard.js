@@ -3,6 +3,7 @@ import AdminMenu from "../../components/layout/AdminMenu";
 import Layout from "../../components/layout/Layout";
 import { useAuth } from "../../context/auth";
 import styled from "styled-components";
+import { BASE_URL } from "../../Config";
 
 const Container = styled.div`
   padding: 3rem;

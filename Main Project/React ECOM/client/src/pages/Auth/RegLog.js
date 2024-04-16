@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Layout from '../../components/layout/Layout';
 import './RegLog.css';
+import { BASE_URL } from '../../Config';
 
 const RegLog = () => {
   useEffect(() => {

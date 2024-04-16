@@ -5,6 +5,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { BASE_URL } from "../../Config";
 
 
 const Container = styled.div`
@@ -66,7 +67,7 @@ const Products = () => {
   // Get all products
   const getAllProducts = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8080/api/v1/product/get-product");
+      const { data } = await axios.get(`${BASE_URL}/api/v1/product/get-product`);
       setProducts(data.products);
     } catch (error) {
       console.log(error);
@@ -92,7 +93,7 @@ const Products = () => {
               <ProductCard key={p._id} to={`/Dashboard/admin/product/${p.slug}`}>
                 <div className="card">
                   <ProductImage
-                    src={`http://localhost:8080/api/v1/product/product-photo/${p._id}`}
+                    src={`${BASE_URL}/api/v1/product/product-photo/${p._id}`}
                     alt={p.name}
                   />
                   <ProductInfo>

@@ -6,6 +6,7 @@ import axios from "axios";
 import CategoryForm from '../../components/Form/CategoryForm';
 import { Modal } from 'antd';
 import styled from "styled-components";
+import { BASE_URL } from '../../Config';
 
 const Container = styled.div`
   padding: 3rem;
@@ -89,7 +90,7 @@ const CreateCategory = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        const { data } = await axios.post("http://localhost:8080/api/v1/category/create-category", {
+        const { data } = await axios.post(`${BASE_URL}/api/v1/category/create-category`, {
             name,
         });
         if (data?.success) {
@@ -107,7 +108,7 @@ const CreateCategory = () => {
 //get all cat
 const getAllCategory = async () => {
     try {
-        const { data } = await axios.get("http://localhost:8080/api/v1/category/get-category");
+        const { data } = await axios.get(`${BASE_URL}/api/v1/category/get-category`);
         if (data?.success) {
             setCategories(data?.category);
         }
@@ -127,7 +128,7 @@ const handleUpdate = async (e) => {
     e.preventDefault();
     try {
         const { data } = await axios.put(
-            `http://localhost:8080/api/v1/category/update-category/${selected._id}`,
+          `${BASE_URL}/api/v1/category/update-category/${selected._id}`,
             { name: updatedName }
         );
         if (data?.success) {
@@ -147,7 +148,7 @@ const handleUpdate = async (e) => {
 //delete category
 const handleDelete = async (pId) => {
     try {
-        const { data } = await axios.delete(`http://localhost:8080/api/v1/category/delete-category/${pId}`
+        const { data } = await axios.delete(`${BASE_URL}/api/v1/category/delete-category/${pId}`
         );
         if (data.success) {
             toast.success(`category is deleted`);

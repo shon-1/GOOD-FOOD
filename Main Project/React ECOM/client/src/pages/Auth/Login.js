@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 import { useAuth } from "../../context/auth";
 import { NavLink } from "react-router-dom";
+import { BASE_URL } from "../../Config";
 
 const Login = () => {
   console.log("Login component rendered"); 
@@ -22,7 +23,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:8080/api/v1/auth/login", {
+      const res = await axios.post(`${BASE_URL}/api/v1/auth/login`, {
         email,
         password,
       });

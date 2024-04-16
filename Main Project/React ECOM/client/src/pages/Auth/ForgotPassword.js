@@ -3,6 +3,7 @@ import Layout from '../../components/layout/Layout';
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
+import { BASE_URL } from "../../Config";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -10,7 +11,7 @@ const ForgotPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:8080/api/v1/auth/forgot-password", {
+      const res = await axios.post(`${BASE_URL}/api/v1/auth/forgot-password`, {
         email,
       });
       if (res && res.data.success) {

@@ -6,6 +6,7 @@ import axios from "axios";
 import { Select, Tooltip } from "antd";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { BASE_URL } from '../../Config';
 
 const { Option } = Select;
 
@@ -184,7 +185,7 @@ const CreateProduct = () => {
   //get all category
   const getAllCategory = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8080/api/v1/category/get-category");
+      const { data } = await axios.get(`${BASE_URL}/api/v1/category/get-category`);
       if (data?.success) {
         setCategories(data?.category);
       }
@@ -231,7 +232,7 @@ const CreateProduct = () => {
       productData.append("orgin", orgin);
       productData.append("color", color);
 
-      const { data } = await axios.post("http://localhost:8080/api/v1/product/create-product", productData);
+      const { data } = await axios.post(`${BASE_URL}/api/v1/product/create-product`, productData);
 
 
       if (data?.success) {

@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
+import { BASE_URL } from "../../Config";
 
 
 const Register = () => {
@@ -109,7 +110,7 @@ const Register = () => {
     // Other custom validation rules can be added here
 
     try {
-      const res = await axios.post("http://localhost:8080/api/v1/auth/register", {
+      const res = await axios.post(`${BASE_URL}/api/v1/auth/register`, {
         name,
         email,
         password,

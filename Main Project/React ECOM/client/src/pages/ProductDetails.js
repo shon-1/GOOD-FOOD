@@ -5,6 +5,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import toast from "react-hot-toast";
 import { useCart } from "../context/cart";
+import { BASE_URL } from "../Config";
+
 
 // Styled components
 const Container = styled.div`
@@ -183,7 +185,7 @@ const ProductDetails = () => {
   const getProduct = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8080/api/v1/product/get-product/${params.slug}`
+        `${BASE_URL}/api/v1/product/get-product/${params.slug}`
       );
       setProduct(data?.product);
       getSimilarProduct(data?.product._id, data?.product.category._id);
@@ -195,7 +197,7 @@ const ProductDetails = () => {
   const getSimilarProduct = async (pid, cid) => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8080/api/v1/product/related-product/${pid}/${cid}`
+        `${BASE_URL}/api/v1/product/related-product/${pid}/${cid}`
       );
       setRelatedProducts(data?.products);
     } catch (error) {
@@ -239,7 +241,7 @@ const ProductDetails = () => {
             <hr />
             {product && (
               <ProductImage
-                src={`http://localhost:8080/api/v1/product/product-photo/${product._id}`}
+                src={`${BASE_URL}/api/v1/product/product-photo/${product._id}`}
                 alt={product.name}
               />
             )}
@@ -314,7 +316,7 @@ const ProductDetails = () => {
             {relatedProducts?.map((p) => (
               <ProductCard key={p._id}>
                 <ProductImage
-                  src={`http://localhost:8080/api/v1/product/product-photo/${p._id}`}
+                  src={`${BASE_URL}/api/v1/product/product-photo/${p._id}`}
                   alt={p.name}
                 />
                 <div>

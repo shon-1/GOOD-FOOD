@@ -7,6 +7,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import "../styles/CartStyles.css";
 import DropIn from "braintree-web-drop-in-react";
+import { BASE_URL } from "../Config";
 //import { Spinner } from "react-bootstrap";
 // eslint-disable-next-line
 
@@ -43,7 +44,7 @@ const CartPage = () => {
           // Add other buyer details as needed
         },
       });
-      const response = await axios.post("http://localhost:8080/api/v1/payment/orders", {
+      const response = await axios.post(`${BASE_URL}/api/v1/payment/orders`, {
         amount: cart.reduce((total, item) => total + item.price * item.quantity, 0),
 
         products: cart.map(item => ({
@@ -134,7 +135,7 @@ const CartPage = () => {
   //get payment gateway token
   const getToken = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8080/api/v1/product/braintree/token");
+      const { data } = await axios.get(`${BASE_URL}/api/v1/product/braintree/token`);
       setClientToken(data?.clientToken);
     } catch (error) {
       console.log(error);
@@ -151,7 +152,7 @@ const CartPage = () => {
       setLoading(true);
       const { nonce } = await instance.requestPaymentMethod();
       // eslint-disable-next-line
-      const { data } = await axios.post("http://localhost:8080/api/v1/product/braintree/payment", {
+      const { data } = await axios.post(`${BASE_URL}/api/v1/product/braintree/payment`, {
         nonce,
        cart
       });
@@ -207,7 +208,7 @@ const CartPage = () => {
               <div className="row card flex-row" key={p._id}>
                 <div className="col-md-4">
                   <img
-                    src={`http://localhost:8080/api/v1/product/product-photo/${p._id}`}
+                    src={`${BASE_URL}/api/v1/product/product-photo/${p._id}`}
                     className="card-img-top"
                     alt={p.name}
                     width="100%"

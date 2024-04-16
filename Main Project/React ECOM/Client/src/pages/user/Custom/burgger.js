@@ -3,6 +3,7 @@ import Layout from "../../../components/layout/Layout";
 import styled from "styled-components";  
 import Draggable from "react-draggable";
 import toast from "react-hot-toast";
+import { BASE_URL } from "../../../Config";
 
 // Styled components
 const Container = styled.div`
@@ -108,7 +109,7 @@ const Burgger = () => {
       }
     
       try {
-        const response = await fetch('http://localhost:8080/api/v1/Customize/burgerImageOrder', {
+        const response = await fetch(`${BASE_URL}/api/v1/Customize/burgerImageOrder`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

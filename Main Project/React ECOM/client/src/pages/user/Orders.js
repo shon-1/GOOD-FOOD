@@ -5,6 +5,7 @@ import UserMenu from '../../components/layout/UserMenu'
 import axios from "axios";
 import { useAuth } from "../../context/auth";
 import moment from "moment";
+import { BASE_URL } from "../../Config";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -12,7 +13,7 @@ const Orders = () => {
   const [auth, setAuth] = useAuth();
   const getOrders = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8080/api/v1/auth/orders");
+      const { data } = await axios.get(`${BASE_URL}/api/v1/auth/orders`);
       console.log(data); 
       const sortedOrders = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       setOrders(sortedOrders);
@@ -63,7 +64,7 @@ const Orders = () => {
                         <div className="row mb-2 p-3 card flex-row" >
                         <div className="col-md-4 ">
                           <img
-                            src={`http://localhost:8080/api/v1/product/product-photo/${p._id}`}
+                            src={`${BASE_URL}/api/v1/product/product-photo/${p._id}`}
                             className="card-img-top"
                             alt={p.name}
                             width="100px"

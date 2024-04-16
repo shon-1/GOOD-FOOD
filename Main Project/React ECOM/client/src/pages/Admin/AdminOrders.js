@@ -7,6 +7,7 @@ import { useAuth } from "../../context/auth";
 import moment from "moment";
 import { Select } from "antd";
 import styled from "styled-components";
+import { BASE_URL } from "../../Config";
 
 const { Option } = Select;
 
@@ -79,7 +80,7 @@ const AdminOrders = () => {
   const [auth, setAuth] = useAuth();
   const getOrders = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8080/api/v1/auth/all-orders");
+      const { data } = await axios.get(`${BASE_URL}/api/v1/auth/all-orders`);
       setOrders(data);
     } catch (error) {
       console.log(error);
@@ -92,7 +93,7 @@ const AdminOrders = () => {
 
   const handleChange = async (orderId, value) => {
     try {
-      const { data } = await axios.put(`http://localhost:8080/api/v1/auth/order-status/${orderId}`, {
+      const { data } = await axios.put(`${BASE_URL}/api/v1/auth/order-status/${orderId}`, {
         status: value,
       });
       getOrders();
@@ -152,7 +153,7 @@ const AdminOrders = () => {
                       <div className="row mb-2 p-3 card flex-row" key={p._id}>
                         <div className="col-md-4">
                           <img
-                            src={`http://localhost:8080/api/v1/product/product-photo/${p._id}`}
+                            src={`${BASE_URL}/api/v1/product/product-photo/${p._id}`}
                             className="card-img-top"
                             alt={p.name}
                             width="100px"
