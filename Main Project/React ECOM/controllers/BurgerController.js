@@ -5,7 +5,7 @@ import BurgerModel from "../models/BurgerModel.js"
 import fs from "fs";
 import slugify from "slugify";
 import dotenv from "dotenv";
-import braintree from "braintree";
+
 
 dotenv.config();
 

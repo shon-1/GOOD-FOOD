@@ -12,8 +12,7 @@ import {
   searchProductController,
   updateProductController,
   realtedProductController,
-  brainTreePaymentController,
-  braintreeTokenController,
+
 
 } from "../controllers/productController.js";
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
@@ -61,10 +60,10 @@ router.get("/search/:keyword", searchProductController);
 
 //payments routes
 //token
-router.get("/braintree/token", braintreeTokenController);
+// router.get("/braintree/token", braintreeTokenController);
 
 //payments
-router.post("/braintree/payment", requireSignIn, brainTreePaymentController);
+// router.post("/braintree/payment", requireSignIn, brainTreePaymentController);
 
 
 export default router;
