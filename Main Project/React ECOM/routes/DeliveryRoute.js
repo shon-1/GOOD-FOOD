@@ -7,14 +7,13 @@ const router = express.Router();
 
 // Define routes
 router.post("/DeliveryAdd/:orderId",
-  requireSignIn,
-  isAdmin,
+ 
   chooseOrderForDeliveryController
 );
 
-router.post('/register',  requireSignIn, isAdmin, registerDeliveryContoller );
-router.get("/Allorders",  requireSignIn, isDelivery, getOrdersNotInDelivery);
-router.get('/Onlyorders/:userId', requireSignIn, isDelivery, getOrdersInDelivery);
-router.get('/Count/:userId', requireSignIn, isDelivery, countUserDeliveries );
+router.post('/register',   registerDeliveryContoller );
+router.get("/Allorders",   getOrdersNotInDelivery);
+router.get('/Onlyorders/:userId',  getOrdersInDelivery);
+router.get('/Count/:userId', countUserDeliveries );
 
 export default router;
