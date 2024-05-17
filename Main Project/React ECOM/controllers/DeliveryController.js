@@ -2,15 +2,17 @@
 import DeliveryModel from "../models/DeliveryModel.js";
 import userModel from "../models/userModel.js";
 import orderModel from "../models/orderModel.js";
+import nodemailer from 'nodemailer';
 import { comparePassword, hashPassword } from "../helpers/authHelper.js";
 //--------------------------------------------------------------register delivery
 
 
 export const registerDeliveryContoller = async (req, res) => {
   try {
-      console.log("Received registration request #########");
+      console.log("Received Delivery registration request #########");
       const { name, email, password, phone, address, answer } = req.body
       //validation
+      console.log(email);
       if (!name) {
           return res.send({ error: 'Name is Required' })
       }
@@ -56,12 +58,41 @@ export const registerDeliveryContoller = async (req, res) => {
       //save
       const user = await new userModel({ name, email, phone, address, password: hashedPassword, answer ,role:"1" }).save()
 
-      res.status(201).send({
-          success: true,
-          message: 'user Registration Successful',
-          user,
 
-      });
+      
+     // Send email to the user
+     const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+          user: 'aliyaaugust27@gmail.com', 
+          pass: 'fhpl jkas dbcl qfrh', 
+      },
+  });
+
+  const mailOptions = {
+      from: 'aliyaaugust27@gmail.com', 
+      to: email, 
+      subject: 'Account Registration Successful',
+      text: `Hello ${name},\n\nYou have been successfully registered on our platform.\n\nYour login credentials are:\nEmail: ${email}\nPassword: ${password}\n\nYou can now log in to your account.\n\nRegards,\nThe GoodFood`,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+          console.error(error);
+          return res.status(500).send({
+              success: false,
+              message: 'Failed to send registration email',
+              error,
+          });
+      } else {
+          return res.status(201).send({
+              success: true,
+              message: 'User registration successful. Email sent with login credentials.',
+              user,
+          });
+      }
+  });
+
   } catch (error) {
       console.error("Error in registration: ########", error);
       console.log(error)
@@ -207,4 +238,88 @@ export const countUserDeliveries = async (req, res) => {
   }
 };
 
-//----------------------------------------------------------------
+
+
+//--------------------------------------------------------------fetch all delivery guys
+
+
+
+export const getAllDeliveryGuys = async (req, res) => {
+  try {
+    // Find all users with the role of delivery person and address containing "worker"
+    const deliveryGuys = await userModel.find({ role: "1", address: /worker/i });
+
+    res.status(200).send({
+      success: true,
+      message: "Delivery guys retrieved successfully",
+      deliveryGuys
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in retrieving delivery guys",
+      error: error.message,
+    });
+  }
+};
+
+
+export const updateDeliveryGuyAddress = async (req, res) => {
+  const { userId } = req.params;
+  const { address } = req.body;
+
+  try {
+    // Find the delivery guy by userId
+    const deliveryGuy = await userModel.findById(userId);
+    const email = deliveryGuy.email;
+    
+
+    if (!deliveryGuy) {
+      return res.status(404).send({ success: false, message: "Delivery guy not found" });
+    }
+
+    // Update the address
+    deliveryGuy.address = address;
+    await deliveryGuy.save();
+
+    // Send email to the user
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+          user: 'aliyaaugust27@gmail.com', 
+          pass: 'fhpl jkas dbcl qfrh', 
+      },
+  });
+
+  const mailOptions = {
+      from: 'aliyaaugust27@gmail.com', 
+      to: deliveryGuy.email, 
+      subject: 'Account Status Changed',
+      text: `Hello ${deliveryGuy.name},\n\nyour Account staus changed by GooDFood Adminstrator.\n\n\nCurrent Status: ${address}\n\nYou can now contact the GoodFood For More details.\n\nRegards,\nThe GoodFood`,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+          console.error(error);
+          return res.status(500).send({
+              success: false,
+              message: 'Failed to send registration email',
+              error,
+          });
+      } else {
+          return res.status(201).send({
+              success: true,
+              message: 'Staus Updated & Mailed',
+              user,
+          });
+      }
+  });
+
+
+    res.status(200).send({ success: true, message: "Address updated successfully", updatedDeliveryGuy: deliveryGuy });
+  } catch (error) {
+    console.error("Error updating address:", error);
+    res.status(500).send({ success: false, message: "Error updating address", error: error.message });
+  }
+};
