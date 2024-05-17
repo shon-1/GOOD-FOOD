@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Layout from '../../components/layout/Layout';
-//import "../../index.css";
 import "../../styles/form.css";
 import axios from "axios";
-import { useNavigate , useLocation } from "react-router-dom"; //redirect
+import { useNavigate , useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 import { useAuth } from "../../context/auth";
@@ -19,6 +18,23 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  useEffect(() => {
+    const storedAuth = localStorage.getItem("auth");
+    if (storedAuth) {
+      const authData = JSON.parse(storedAuth);
+      setAuth(authData);
+      if (authData.user.role === "1") {
+        if (authData.user.address === "worker") {
+          navigate("/Dashboard/DeliveryHome");
+        } else {
+          navigate("/Dashboard/AdminDashboard");
+        }
+      } else {
+        navigate("/");
+      }
+    }
+  }, [navigate, setAuth]);
+
   // form function
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +44,7 @@ const Login = () => {
         password,
       });
 
-      console.log("API Response:", res.data); // Add this line
+      console.log("API Response:", res.data);
 
       if (res && res.data.success) {
         toast.success(res.data && res.data.message);
@@ -39,24 +55,21 @@ const Login = () => {
         });
         localStorage.setItem("auth", JSON.stringify(res.data));
 
-        console.log("User Role:", res.data.user.role); // Add this line
+        console.log("User Role:", res.data.user.role);
 
         setTimeout(() => {
-         
           if (res.data.user.role === "1") {
             console.log("Before navigating to Admin Dashboard");
-                if (res.data.user.address === "worker") {
-                  console.log("address=worker");
-                  navigate("/Dashboard/DeliveryHome");
-                  return;
-                }
+            if (res.data.user.address === "worker") {
+              console.log("address=worker");
+              navigate("/Dashboard/DeliveryHome");
+              return;
+            }
             navigate(location.state || "/Dashboard/AdminDashboard");
           } else {
             navigate(location.state || "/");
           }
-          
         }, 100); 
-       
         
       } else {
         toast.error(res.data.message);
@@ -66,6 +79,7 @@ const Login = () => {
       toast.error("Something went wrong");
     }
   };
+
   return (
     <Layout title="Register - Ecommer App">
       <div className="form-container " style={{ minHeight: "90vh" }}>
@@ -98,9 +112,8 @@ const Login = () => {
             />
           </div>
           <div className="mb-3">
-          <NavLink to="/forgot-password" className="forgot-link">Forgot Password</NavLink>
+            <NavLink to="/forgot-password" className="forgot-link">Forgot Password</NavLink>
           </div>
-          
 
           <button type="submit" className="btn btn-primary" id="testid">
             LOGIN

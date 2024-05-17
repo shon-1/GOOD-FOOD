@@ -226,6 +226,7 @@ const HomePage = () => {
                       More Details
                     </button>
                     <button
+                      id="45"
                       className="btn btn-dark ms-1"
                       onClick={() => {
                         // Check if the item is already in the cart

@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import toast from "react-hot-toast";
+import { BASE_URL } from "../../Config";
 
 
 
@@ -83,17 +84,14 @@ const DeliveryAdd = () => {
   const [password, setPassword] = useState("");
   const [answer, setAnswer] = useState(null);
   const [error, setError] = useState("");
-  const [file, setFile] = useState(null); // State to hold the uploaded file
+
 
   const handleGeneratePassword = () => {
     const randomPassword = generateRandomPassword();
     setPassword(randomPassword);
   };
 
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
-    setFile(file);
-  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -108,23 +106,26 @@ const DeliveryAdd = () => {
     try {
       let formData = new FormData();
       formData.append("name", name);
+      console.log(name);
       formData.append("email", email);
       formData.append("password", password);
       formData.append("phone", phone);
       formData.append("address", address);
       formData.append("answer", answer !== null ? answer : "null");
-      if (file) {
-        formData.append("file", file); // Append the file to form data
-      }
+      
+      console.log(formData)
 
       const res = await axios.post(
-        "http://localhost:8080/api/v1/Delivery/register",
-        formData,
+        `${BASE_URL}/api/v1/Delivery/register`,
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+          name,
+          email,
+          password,
+          phone,
+          address,
+          answer:"null",
         }
+      
       );
       if (res && res.data.success) {
         toast.success(res.data.message);
@@ -211,14 +212,7 @@ const DeliveryAdd = () => {
                   </Button>
                 </FieldContainer>
               </FormGroup>
-              <FormGroup>
-                <Label>Upload File:</Label>
-                <Input
-                  type="file"
-                  onChange={handleFileUpload}
-                  accept=".xlsx, .xls"
-                />
-              </FormGroup>
+           
               {error && <ErrorMessage>{error}</ErrorMessage>}
               <Button type="submit">Add Delivery Guy</Button>
             </Form>
